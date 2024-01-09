@@ -16,8 +16,12 @@
   "icon": "assets/corelib/icon.png",
   "environment": "*",
   "entrypoints": {
-    "server": [],
-    "client": [],
+    "server": [
+      "io.github.sakuraryoko.corelib.server.CoreLibServer"
+    ],
+    "client": [
+      "io.github.sakuraryoko.corelib.client.CoreLibClient"
+    ],
     "main": []
   },
   "mixins": [],

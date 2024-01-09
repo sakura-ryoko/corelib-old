@@ -1,6 +1,7 @@
 package io.github.sakuraryoko.corelib.nodes;
 
 import com.mojang.serialization.DataResult;
+import io.github.sakuraryoko.corelib.util.CoreLog;
 import net.minecraft.text.TextColor;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,7 +14,7 @@ public class MoreColorNode {
     private List<String> aliases = new ArrayList<>();
     private TextColor color;
 
-    protected MoreColorNode(String name, String hexCode) {
+    public MoreColorNode(String name, String hexCode) {
         DataResult<TextColor> dr;
         dr = TextColor.parse(hexCode);
         if (dr.error().isEmpty()) {
@@ -21,12 +22,12 @@ public class MoreColorNode {
             this.hexCode = hexCode;
             this.color = dr.get().left().orElse(null);
         } else {
-            //AfkPlusLogger.warn("MoreColor("+ name +") is Invalid, error: "+dr.error().toString());
+            CoreLog.warn("MoreColorNode("+ name +") is Invalid, error: "+dr.error().toString());
             this.name = "";
             this.hexCode = "";
         }
     }
-    protected MoreColorNode(String name, String hexCode, @Nullable List<String> aliases) {
+    public MoreColorNode(String name, String hexCode, @Nullable List<String> aliases) {
         DataResult<TextColor> dr;
         dr = TextColor.parse(hexCode);
         if (dr.error().isEmpty()) {
@@ -35,15 +36,15 @@ public class MoreColorNode {
             this.color = dr.get().left().orElse(null);
             this.aliases = aliases;
         } else {
-            //AfkPlusLogger.warn("MoreColor("+ name +") is Invalid, error: "+dr.error().toString());
+            CoreLog.warn("MoreColorNode("+ name +") is Invalid, error: "+dr.error().toString());
             this.name = "";
             this.hexCode = "";
         }
     }
 
-    protected String getName() { return this.name; }
-    protected String getHexCode() { return this.hexCode; }
+    public String getName() { return this.name; }
+    public String getHexCode() { return this.hexCode; }
     @Nullable
-    protected List<String> getAliases() { return this.aliases; }
-    protected TextColor getColor() { return this.color; }
+    public List<String> getAliases() { return this.aliases; }
+    public TextColor getColor() { return this.color; }
 }

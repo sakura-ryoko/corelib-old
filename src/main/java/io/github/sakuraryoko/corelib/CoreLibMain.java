@@ -1,7 +1,8 @@
 package io.github.sakuraryoko.corelib;
 
+import io.github.sakuraryoko.corelib.config.CoreConfig;
 import io.github.sakuraryoko.corelib.info.ModManager;
-import io.github.sakuraryoko.corelib.nodes.NodeManagerV2;
+//import io.github.sakuraryoko.corelib.nodes.NodeManagerV2;
 import io.github.sakuraryoko.corelib.util.CoreLog;
 
 public class CoreLibMain {
@@ -12,7 +13,8 @@ public class CoreLibMain {
         CoreInit = true;
         CoreLog.initLogger();
         ModManager.init();
-        NodeManagerV2.initNodes();
-        NodeManagerV2.registerNodes();
+        CoreConfig.init();
+        //NodeManagerV2.initNodes();
+        //NodeManagerV2.registerNodes();
     }
 }

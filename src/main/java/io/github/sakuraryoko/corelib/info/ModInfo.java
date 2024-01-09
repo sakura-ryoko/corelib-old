@@ -9,8 +9,7 @@ import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.fabricmc.loader.api.metadata.Person;
 import net.minecraft.text.Text;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
 
 public class ModInfo {
     private String MOD_ID;
@@ -139,37 +138,29 @@ public class ModInfo {
 
     protected String getModIssues() { return this.issues; }
 
-    protected String getModBasicInfo(int level) {
-        if (level < 0)
-            return "";
-        StringBuilder basicInfo = new StringBuilder(this.modName);
-        basicInfo.append("-").append(this.mcVersion).append("-").append(this.modVersion);
-        if (level > 0)
-            basicInfo.append("\nAuthor: ").append(this.authorString);
-        if (level > 1)
-            basicInfo.append("\nLicense: ").append(this.licenseString);
-        if (level > 2)
-            basicInfo.append("\nHomepage: ").append(this.homepage);
-        if (level > 3)
-            basicInfo.append("\nDescription: ").append(this.description);
-        return basicInfo.toString();
+    protected Map<String, String> getModBasicInfo() {
+        Map<String, String> basicInfo = new HashMap<>();
+        basicInfo.put("ver",  this.modName+"-"+this.mcVersion+"-"+this.modVersion);
+        basicInfo.put("auth", "Author: "+this.authorString);
+        basicInfo.put("con",  "Contrib: "+this.contribString);
+        basicInfo.put("lic",  "License: "+this.licenseString);
+        basicInfo.put("home", "Homepage: "+this.homepage);
+        basicInfo.put("src",  "Source: "+this.source);
+        basicInfo.put("iss",  "Issues: "+this.issues);
+        basicInfo.put("desc", "Description: "+this.description);
+        return basicInfo;
     }
 
-    protected Text getModFormattedInfo(int level) {
-        if (level < 0)
-            return Text.of("");
-        StringBuilder fmtInfo = new StringBuilder(this.modName);
-        fmtInfo.append("-").append(this.mcVersion).append("-").append(this.modVersion);
-        if (level > 0)
-            fmtInfo.append("\nAuthor: <pink>").append(this.authorString).append("</pink>");
-        if (level > 1)
-            fmtInfo.append("\nLicense: <yellow>").append(this.licenseString).append("</yellow>");
-        if (level > 2)
-            fmtInfo.append("\nHomepage: <cyan><url:'").append(this.homepage).append("'>").append(this.homepage).append("</url></cyan>");
-        if (level > 3)
-            fmtInfo.append("\nSource: <cyan><url:'").append(this.source).append("'>").append(this.source).append("</url></cyan>");
-        if (level > 4)
-            fmtInfo.append("\nDescription: <light_blue>").append(this.description).append("</light_blue>");
-        return TextParserUtils.formatText(fmtInfo.toString());
+    protected Map<String, Text> getModFormattedInfo() {
+        Map <String, Text> fmtInfo = new HashMap<>();
+        fmtInfo.put("ver",  Text.of(this.modName+"-"+this.mcVersion+"-"+this.modVersion));
+        fmtInfo.put("auth", TextParserUtils.formatText("Author: <pink>"+this.authorString+"</pink>"));
+        fmtInfo.put("con",  TextParserUtils.formatText("Contrib: <lime>"+this.contribString+"</lime>"));
+        fmtInfo.put("lic",  TextParserUtils.formatText("License: <yellow>"+this.licenseString+"</yellow>"));
+        fmtInfo.put("home", TextParserUtils.formatText("Homepage: <cyan><url:'"+this.homepage+"'>"+this.homepage+"</url></cyan>"));
+        fmtInfo.put("src",  TextParserUtils.formatText("Source: <cyan><url:'"+this.source+"'>"+this.source+"</url></cyan>"));
+        fmtInfo.put("iss",  TextParserUtils.formatText("Issues: <cyan><url:'"+this.issues+"'>"+this.issues+"</url></cyan>"));
+        fmtInfo.put("desc", TextParserUtils.formatText("Description: <light_blue>"+this.description+"</light_blue>"));
+        return fmtInfo;
     }
 }
