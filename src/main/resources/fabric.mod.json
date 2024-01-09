@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "corelib",
+  "version": "${version}",
+  "name": "CoreLib",
+  "description": "Sakura Ryoko's Core Mod Template",
+  "authors": [
+    "sakura-ryoko"
+  ],
+  "contact": {
+    "homepage": "https://github.com/sakura-ryoko/corelib",
+    "sources": "https://github.com/sakura-ryoko/corelib",
+    "issues": "https://github.com/sakura-ryoko/corelib/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/corelib/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "server": [],
+    "client": [],
+    "main": []
+  },
+  "mixins": [],
+  "depends": {
+    "fabricloader": ">=0.14.25",
+    "fabric": ">=0.91.1",
+    "minecraft": ">=1.20.3",
+    "java": ">=17"
+  }
+}
