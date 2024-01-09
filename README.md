@@ -1,2 +1,2 @@
-# sr-core-mod
-A Core Mod Template
+# CoreLib
+A Core Library Template for Mods
