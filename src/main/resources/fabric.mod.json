@@ -3,7 +3,7 @@
   "id": "corelib",
   "version": "${version}",
   "name": "CoreLib",
-  "description": "Sakura Ryoko's Core Mod Template",
+  "description": "Sakura Ryoko's Core Library API",
   "authors": [
     "sakura-ryoko"
   ],
@@ -21,8 +21,7 @@
     ],
     "client": [
       "io.github.sakuraryoko.corelib.client.CoreLibClient"
-    ],
-    "main": []
+    ]
   },
   "mixins": [],
   "depends": {
@@ -31,5 +30,10 @@
     "fabric": ">=0.91.1",
     "minecraft": ">=1.20.3",
     "java": ">=17"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": [ "library" ]
+    }
   }
 }

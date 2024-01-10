@@ -4,18 +4,20 @@ import eu.pb4.placeholders.api.node.TextNode;
 import eu.pb4.placeholders.api.node.parent.ColorNode;
 import eu.pb4.placeholders.api.parsers.TextParserV1;
 import eu.pb4.placeholders.impl.textparser.TextParserImpl;
-import io.github.sakuraryoko.corelib.config.nodes.MoreColorConfig;
+import io.github.sakuraryoko.corelib.util.CoreLog;
 import net.minecraft.text.TextColor;
 
 import java.util.Iterator;
 import java.util.List;
 
 public class NodeManagerV2 {
-       private static void registerColors() {
-        final Iterator<MoreColorNode> iterator = MoreColorConfig.COLORS.iterator();
+    public static void registerColors() {
+        final Iterator<MoreColorNode> iterator = MoreColorNode.COLORS.iterator();
         MoreColorNode iColorNode;
         while (iterator.hasNext()) {
             iColorNode = iterator.next();
+            if (iColorNode.isRegistered())
+                continue;
             // DataResult checked at initialization
             TextColor finalIColorNode = iColorNode.getColor();
             if (iColorNode.getAliases() != null) {
@@ -28,6 +30,7 @@ public class NodeManagerV2 {
                                 wrap((nodes, arg) -> new ColorNode(nodes, finalIColorNode))
                         )
                 );
+                CoreLog.debug("NodeManagerV2.registerColors() -- Registering "+ iColorNode.getName()+" with hexCode: "+iColorNode.getHexCode()+" successful, with aliases of: "+iColorNode.getAliases().toString());
             } else {
                 TextParserV1.registerDefault(
                         TextParserV1.TextTag.of(
@@ -38,7 +41,9 @@ public class NodeManagerV2 {
                                 wrap((nodes, arg) -> new ColorNode(nodes, finalIColorNode))
                         )
                 );
+                CoreLog.debug("NodeManagerV2.registerColors() -- Registering "+ iColorNode.getName()+" with hexCode: "+iColorNode.getHexCode()+" successful.");
             }
+            iColorNode.registerColor();
         }
     }
     public static void registerNodes() {

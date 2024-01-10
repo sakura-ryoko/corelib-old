@@ -16,6 +16,7 @@ repositories {
 		url "https://maven.nucleoid.xyz/"
 		//mavenLocal()
 	}
+	maven { url 'https://maven.terraformersmc.com/releases/' }
 	// Only for a local maven repo for deps
 	//flatDir { dirs 'libs' }
 }
@@ -27,8 +28,9 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation include("eu.pb4:placeholder-api:${project.placeholder_api_version}")
 	modImplementation include("com.google.code.gson:gson:${project.gson_version}")
+	modCompileOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
+
 	//modImplementation include("me.lucko:fabric-permissions-api:${project.fabric_permissions_api_version}")
-	//implementation include("com.moandjiezana.toml:toml4j:${project.toml4j_version}")
 }
 
 processResources {
