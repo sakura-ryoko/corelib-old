@@ -10,7 +10,11 @@ import java.util.Map;
 public class MoreColorLoad {
     public static void defaults(MoreColorConfig cfg) {
         // Check for default values
-        cfg.COLORS.putIfAbsent("brown", "#632C04");
+        cfg.COLORS.putIfAbsent("brown","#632C04");
+        cfg.COLORS.putIfAbsent("burnt_orange","#FF7034");
+        cfg.COLORS.putIfAbsent("canary", "#FFFF99");
+        cfg.COLORS.putIfAbsent("cool_mint", "#DDEBEC");
+        cfg.COLORS.putIfAbsent("copper", "#DA8A67");
         cfg.COLORS.putIfAbsent("cyan","#2D7C9D");
         cfg.COLORS.putIfAbsent("dark_brown","#421F05");
         cfg.COLORS.putIfAbsent("dark_pink","#DE8BB4");
@@ -24,8 +28,10 @@ public class MoreColorLoad {
         cfg.COLORS.putIfAbsent("orange","#E69E34");
         cfg.COLORS.putIfAbsent("pink","#EDA7CB");
         cfg.COLORS.putIfAbsent("purple","#A453CE");
-        cfg.COLORS.putIfAbsent("salmon", "#FF91A4");
-        cfg.ALIASES.putIfAbsent("salmon", List.of("pink_salmon"));
+        cfg.COLORS.putIfAbsent("royal_purple", "#6B3FA0");
+        cfg.COLORS.putIfAbsent("salmon","#FF91A4");
+        cfg.COLORS.putIfAbsent("shamrock","#33CC99");
+        cfg.COLORS.putIfAbsent("tickle_me_pink", "#FC80A5");
         CoreLog.debug("MoreColorLoad.defaults() initialized.");
     }
     public static void update(MoreColorConfig cfg) {
