@@ -27,6 +27,7 @@ public class MoreColorLoad {
         cfg.COLORS.putIfAbsent("magenta","#CB69C5");
         cfg.COLORS.putIfAbsent("orange","#E69E34");
         cfg.COLORS.putIfAbsent("pink","#EDA7CB");
+        cfg.COLORS.putIfAbsent("powder_blue", "#C0D5F0");
         cfg.COLORS.putIfAbsent("purple","#A453CE");
         cfg.COLORS.putIfAbsent("royal_purple", "#6B3FA0");
         cfg.COLORS.putIfAbsent("salmon","#FF91A4");
