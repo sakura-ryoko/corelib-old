@@ -1,2 +1,2 @@
 # CoreLib
-A Core Library Template for Mods
+A Core Library for my Mods (Future Mods ?)
