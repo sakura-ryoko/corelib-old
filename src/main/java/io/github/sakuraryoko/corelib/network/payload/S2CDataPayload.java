@@ -7,8 +7,8 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 public record S2CDataPayload(Identifier id, PacketByteBuf data) implements CustomPayload {
-    public static final Id<S2CDataPayload> TYPE = new Id<>(PayloadTypes.getId(PayloadTypes.getNamespace(), "s2c-data"));
-    public static final PacketCodec<PacketByteBuf, S2CDataPayload> CODEC = CustomPayload.codecOf(S2CDataPayload::write, S2CDataPayload::new);
+    public static final Id<S2CDataPayload> TYPE;
+    public static final PacketCodec<PacketByteBuf, S2CDataPayload> CODEC;
 
     private S2CDataPayload(PacketByteBuf buf)
     {
@@ -29,4 +29,8 @@ public record S2CDataPayload(Identifier id, PacketByteBuf data) implements Custo
 
     @Override
     public Id<? extends CustomPayload> getId() { return TYPE; }
+    static {
+        TYPE = new Id<>(PayloadTypes.getPayloadId(PayloadTypes.getNamespace(), "s2c-data"));
+        CODEC = CustomPayload.codecOf(S2CDataPayload::write, S2CDataPayload::new);
+    }
 }

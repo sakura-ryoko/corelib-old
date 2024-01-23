@@ -1,6 +1,6 @@
 package io.github.sakuraryoko.corelib.mixin;
 
-import io.github.sakuraryoko.corelib.events.PlayerEvents;
+import io.github.sakuraryoko.corelib.events.ServerPlayerEvents;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ConnectedClientData;
@@ -16,10 +16,10 @@ public abstract class MixinPlayerManager {
 
     @Inject(method = "onPlayerConnect", at = @At("TAIL"))
     private void eventOnPlayerJoin(ClientConnection connection, ServerPlayerEntity player, ConnectedClientData clientData, CallbackInfo ci) {
-        PlayerEvents.onPlayerJoin(player);
+        ServerPlayerEvents.onPlayerJoin(player);
     }
     @Inject(method = "remove", at = @At("HEAD"))
     private void eventOnPlayerLeave(ServerPlayerEntity player, CallbackInfo ci) {
-        PlayerEvents.onPlayerLeave(player);
+        ServerPlayerEvents.onPlayerLeave(player);
     }
 }

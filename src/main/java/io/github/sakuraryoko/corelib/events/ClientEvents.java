@@ -1,16 +1,22 @@
 package io.github.sakuraryoko.corelib.events;
 
-import io.github.sakuraryoko.corelib.network.PayloadTypes;
+import io.github.sakuraryoko.corelib.network.ClientHandlerManager;
 
-public class ClientEvents {
-    public static void starting() {
+public class ClientEvents
+{
+    public static void joining()
+    {
     }
-    public static void started() {
-        PayloadTypes.registerDefaultReceivers();
+    public static void joined()
+    {
+        ClientHandlerManager.registerDefaultReceivers();
     }
 
-    public static void stopping() {
+    public static void disconnecting()
+    {
+        ClientHandlerManager.unregisterDefaultReceivers();
     }
-    public static void stopped() {
+    public static void disconnected()
+    {
     }
 }

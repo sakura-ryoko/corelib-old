@@ -7,8 +7,8 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 public record C2SDataPayload(Identifier id, PacketByteBuf data) implements CustomPayload {
-    public static final Id<C2SDataPayload> TYPE = new Id<>(PayloadTypes.getId(PayloadTypes.getNamespace(), "c2s-data"));
-    public static final PacketCodec<PacketByteBuf, C2SDataPayload> CODEC = CustomPayload.codecOf(C2SDataPayload::write, C2SDataPayload::new);
+    public static final Id<C2SDataPayload> TYPE;
+    public static final PacketCodec<PacketByteBuf, C2SDataPayload> CODEC;
 
     private C2SDataPayload(PacketByteBuf buf)
     {
@@ -26,4 +26,8 @@ public record C2SDataPayload(Identifier id, PacketByteBuf data) implements Custo
     }
     @Override
     public Id<? extends CustomPayload> getId() { return TYPE; }
+    static {
+        TYPE = new Id<>(PayloadTypes.getPayloadId(PayloadTypes.getNamespace(), "c2s-data"));
+        CODEC = CustomPayload.codecOf(C2SDataPayload::write, C2SDataPayload::new);
+    }
 }

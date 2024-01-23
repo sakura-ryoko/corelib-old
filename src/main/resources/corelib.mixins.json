@@ -6,7 +6,9 @@
   "mixins": [
     "MixinPlayerManager"
   ],
-  "client": [],
+  "client": [
+    "MixinMinecraftClient"
+  ],
   "server": [],
   "injectors": {
     "defaultRequire": 1

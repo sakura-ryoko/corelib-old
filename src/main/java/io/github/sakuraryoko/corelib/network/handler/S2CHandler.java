@@ -16,15 +16,35 @@ public class S2CHandler {
         CoreLog.info("S2CHandler#receive() B: id: "+payload.data().readIdentifier());
         CoreLog.info("S2CHandler#receive() B: String: "+payload.data().readString());
     }
+    public static void receive(S2CStringPayload payload, ClientPlayNetworking.Context context) {
+        CoreLog.info("S2CHandler#receive() A: received S2CString Payload: "+ payload.toString());
+    }
+    public static void receive(S2CDataPayload payload, ClientPlayNetworking.Context context) {
+        CoreLog.info("S2CHandler#receive() B: received S2CData Payload (size in bytes): "+ payload.data().readableBytes());
+        CoreLog.info("S2CHandler#receive() B: id: "+payload.data().readIdentifier());
+        CoreLog.info("S2CHandler#receive() B: String: "+payload.data().readString());
+    }
     public static void send(ServerPlayerEntity player, S2CStringPayload payload) {
         if (ServerPlayNetworking.canSend(player, payload.getId())) {
             ServerPlayNetworking.send(player, payload);
             CoreLog.debug("S2CHandler#send(): sending payload id: "+payload.getId());
         }
     }
+    public static void send(S2CStringPayload payload) {
+        if (ClientPlayNetworking.canSend(payload.getId())) {
+            ClientPlayNetworking.send(payload);
+            CoreLog.debug("S2CHandler#send(): sending payload id: "+payload.getId());
+        }
+    }
     public static void send(ServerPlayerEntity player, S2CDataPayload payload) {
         if (ServerPlayNetworking.canSend(player, payload.getId())) {
             ServerPlayNetworking.send(player, payload);
+            CoreLog.debug("S2CHandler#send(): sending payload id: "+payload.getId());
+        }
+    }
+    public static void send(S2CDataPayload payload) {
+        if (ClientPlayNetworking.canSend(payload.getId())) {
+            ClientPlayNetworking.send(payload);
             CoreLog.debug("S2CHandler#send(): sending payload id: "+payload.getId());
         }
     }
