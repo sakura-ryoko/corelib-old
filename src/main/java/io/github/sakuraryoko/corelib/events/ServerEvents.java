@@ -1,29 +1,27 @@
 package io.github.sakuraryoko.corelib.events;
 
-import io.github.sakuraryoko.corelib.network.ClientHandlerManager;
-import io.github.sakuraryoko.corelib.network.test.DebugSuite;
+import io.github.sakuraryoko.corelib.network.ServerHandlerManager;
+import io.github.sakuraryoko.corelib.network.test.ServerDebugSuite;
 
 public class ServerEvents
 {
     public static void starting()
     {
-        DebugSuite.checkGlobalChannels();
-
+        ServerDebugSuite.checkGlobalChannels();
     }
     public static void started()
     {
-        //ClientHandlerManager.registerDefaultReceivers();
-        DebugSuite.checkGlobalChannels();
+        ServerHandlerManager.registerDefaultReceivers();
+        ServerDebugSuite.checkGlobalChannels();
     }
 
     public static void stopping()
     {
-        //ClientHandlerManager.unregisterDefaultReceivers();
-        DebugSuite.checkGlobalChannels();
+        ServerHandlerManager.unregisterDefaultReceivers();
+        ServerDebugSuite.checkGlobalChannels();
     }
     public static void stopped()
     {
-        DebugSuite.checkGlobalChannels();
-
+        ServerDebugSuite.checkGlobalChannels();
     }
 }

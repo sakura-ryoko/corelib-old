@@ -5,7 +5,8 @@ import io.github.sakuraryoko.corelib.config.ConfigManager;
 import io.github.sakuraryoko.corelib.events.ServerEventManager;
 import io.github.sakuraryoko.corelib.info.ModManager;
 import io.github.sakuraryoko.corelib.network.PayloadTypes;
-import io.github.sakuraryoko.corelib.network.test.DebugSuite;
+import io.github.sakuraryoko.corelib.network.test.ClientDebugSuite;
+import io.github.sakuraryoko.corelib.network.test.ServerDebugSuite;
 import io.github.sakuraryoko.corelib.nodes.NodeManagerV2;
 import io.github.sakuraryoko.corelib.util.CoreLog;
 
@@ -23,10 +24,12 @@ public class CoreLibMain {
         }
         NodeManagerV2.registerNodes();
         PayloadTypes.registerDefaultTypes();
-        DebugSuite.checkGlobalChannels();
+        if (ModManager.isServer()) ServerDebugSuite.checkGlobalChannels();
+        if (ModManager.isClient()) ClientDebugSuite.checkGlobalChannels();
         ServerEventManager.register();
         testCommand.register();
         CoreLog.debug("Successful initialization.");
-        DebugSuite.checkGlobalChannels();
+        if (ModManager.isServer()) ServerDebugSuite.checkGlobalChannels();
+        if (ModManager.isClient()) ClientDebugSuite.checkGlobalChannels();
     }
 }
