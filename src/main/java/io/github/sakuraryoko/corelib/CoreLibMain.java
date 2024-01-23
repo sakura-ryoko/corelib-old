@@ -1,7 +1,10 @@
 package io.github.sakuraryoko.corelib;
 
+import io.github.sakuraryoko.corelib.commands.testCommand;
 import io.github.sakuraryoko.corelib.config.ConfigManager;
+import io.github.sakuraryoko.corelib.events.ServerEventManager;
 import io.github.sakuraryoko.corelib.info.ModManager;
+import io.github.sakuraryoko.corelib.network.PayloadTypes;
 import io.github.sakuraryoko.corelib.nodes.NodeManagerV2;
 import io.github.sakuraryoko.corelib.util.CoreLog;
 
@@ -18,6 +21,9 @@ public class CoreLibMain {
             return;
         }
         NodeManagerV2.registerNodes();
+        PayloadTypes.registerDefaultTypes();
+        ServerEventManager.register();
+        testCommand.register();
         CoreLog.debug("Successful initialization.");
     }
 }

@@ -27,6 +27,8 @@ public class ModManager {
     public static FabricLoader getModInstance() { return MOD_INFO.getModInstance(); }
     public static String getID() { return MOD_ID; }
     public static boolean isDebug() { return MOD_DEBUG; }
+    public static boolean isClient() { return MOD_INFO.isClient(); }
+    public static boolean isServer() { return MOD_INFO.isServer(); }
     public static String getMcVersion() { return MOD_INFO.getMCVersion(); }
     public static String getModVersion() { return MOD_INFO.getModVersion(); }
     public static String getModDesc() { return MOD_INFO.getModDesc(); }
