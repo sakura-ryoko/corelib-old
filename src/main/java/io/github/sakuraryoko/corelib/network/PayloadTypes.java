@@ -24,10 +24,6 @@ public class PayloadTypes {
     public static final String NAMESPACE_DEFAULT = ModManager.getID();
     private static String NAMESPACE = NAMESPACE_DEFAULT;
     // Since "name" aka mod_id is assumed to be known, we search by "path" as the key value
-    private static C2SStringPayload paylaodC2SString;
-    private static S2CStringPayload paylaodS2CString;
-    private static C2SDataPayload paylaodC2SData;
-    private static S2CDataPayload paylaodS2CData;
 
     @Nullable
     public static Identifier getPayloadId(String name, String path) {
