@@ -1,17 +1,28 @@
 package io.github.sakuraryoko.corelib.events;
 
-public class ServerEvents {
-    public static void starting() {
+import io.github.sakuraryoko.corelib.network.PayloadTypes;
+import io.github.sakuraryoko.corelib.network.test.DebugSuite;
 
+public class ServerEvents
+{
+    public static void starting()
+    {
+        DebugSuite.checkGlobalChannels();
     }
-    public static void started() {
-
+    public static void started()
+    {
+        PayloadTypes.registerDefaultReceivers();
+        DebugSuite.checkGlobalChannels();
     }
 
-    public static void stopping() {
-
+    public static void stopping()
+    {
+        PayloadTypes.unregisterDefaultReceivers();
+        DebugSuite.checkGlobalChannels();
     }
-    public static void stopped() {
+    public static void stopped()
+    {
+        DebugSuite.checkGlobalChannels();
 
     }
 }
