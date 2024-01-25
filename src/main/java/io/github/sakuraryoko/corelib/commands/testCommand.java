@@ -1,6 +1,7 @@
 package io.github.sakuraryoko.corelib.commands;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import io.github.sakuraryoko.corelib.network.test.TestSuite;
 import io.github.sakuraryoko.corelib.util.CoreLog;
@@ -16,36 +17,44 @@ public class testCommand {
     public static void register()
     {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(
-                literal("testsuite")
-                        .executes(ctx -> runTestServer(ctx.getSource()))
-                        .then(argument("player", EntityArgumentType.player())
-                                //.requires(Permissions.require("afkplus.afk", 0))
-                                .executes((ctx) -> runTestPlayer(ctx.getSource(), EntityArgumentType.getPlayer(ctx,"player"), "Random player message"))
-                                .then(argument("message", StringArgumentType.greedyString())
-                                    .executes((ctx) -> runTestPlayer(ctx.getSource(), EntityArgumentType.getPlayer(ctx,"player"), StringArgumentType.getString(ctx, "message")))
+                literal("network-test")
+                        .then(literal("client")
+                                .then(argument("player", EntityArgumentType.player())
+                                        .executes(ctx -> testPlayer(ctx.getSource(), EntityArgumentType.getPlayer(ctx,"player"), "", ctx))
+                                        .then(argument("message", StringArgumentType.greedyString())
+                                                .executes(ctx -> testPlayer(ctx.getSource(), EntityArgumentType.getPlayer(ctx,"player"), StringArgumentType.getString(ctx, "message"), ctx))
+                                        )
+                                )
                         )
-        )));
+                        .then(literal("server")
+                                .executes(ctx -> testServer(ctx.getSource(), ctx))
+                        )
+        ));
     }
-    private static int runTestServer(ServerCommandSource src) throws CommandSyntaxException {
+
+    private static int testPlayer(ServerCommandSource src, ServerPlayerEntity target, String message, CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException
+    {
+        String user = src.getPlayerOrThrow().getName().getLiteralString();
+        String reponse = !message.isEmpty() ? message : "random message";
+        if (target != null)
+        {
+            // Run S2C test -> Player
+            TestSuite.testS2C(target, reponse);
+        }
+        // Run C2S test
+        //TestSuite.testC2S(reponse);
+        CoreLog.debug("testPlayer(): --> Executed!");
+        return 1;
+    }
+    private static int testServer(ServerCommandSource src, CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException
+    {
         String user = src.getPlayerOrThrow().getName().getLiteralString();
         // Run C2S test
         TestSuite.testC2S("Random server message");
-        CoreLog.debug("runTestServer(): --> Executed!");
-        return 1;
-    }
-    private static int runTestPlayer(ServerCommandSource src, ServerPlayerEntity target, String message) throws CommandSyntaxException {
-        String user = src.getPlayerOrThrow().getName().getLiteralString();
-        if (target != null)
-        {
-            // Run C2S test
-            TestSuite.testS2C(target, message);
-        }
-        else {
-            // Run C2S test
-            TestSuite.testC2S(message);
-        }
-        CoreLog.debug("runTestPlayer(): --> Executed!");
-        return 1;
-    }
 
+        //TestSuite.testS2C(src.getPlayerOrThrow(), "Random server message");
+
+        CoreLog.debug("testServer(): --> Executed!");
+        return 1;
+    }
 }

@@ -2,15 +2,14 @@ package io.github.sakuraryoko.corelib.network;
 
 import io.github.sakuraryoko.corelib.info.ModManager;
 import io.github.sakuraryoko.corelib.network.handler.C2SHandler;
-import io.github.sakuraryoko.corelib.network.payload.C2SDataPayload;
-import io.github.sakuraryoko.corelib.network.payload.C2SStringPayload;
+import io.github.sakuraryoko.corelib.network.payload.*;
 import io.github.sakuraryoko.corelib.util.CoreLog;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
 public class ServerHandlerManager {
-    static ServerPlayNetworking.PlayPayloadHandler<C2SStringPayload> C2SStringHandler;
+    static ServerPlayNetworking.PlayPayloadHandler<StringPayload> C2SStringHandler;
     //static ClientPlayNetworking.PlayPayloadHandler<S2CStringPayload> S2CStringHandler;
-    static ServerPlayNetworking.PlayPayloadHandler<C2SDataPayload> C2SDataHandler;
+    static ServerPlayNetworking.PlayPayloadHandler<DataPayload> C2SDataHandler;
     //static ClientPlayNetworking.PlayPayloadHandler<S2CDataPayload> S2CDataHandler;
 
     public static void registerDefaultReceivers()
@@ -21,11 +20,11 @@ public class ServerHandlerManager {
             CoreLog.debug("ServerHandlerManager#registerDefaultReceivers(): isServer() true.");
             CoreLog.debug("ServerHandlerManager#registerDefaultReceivers(): registerStringHandler()");
 
-            ServerPlayNetworking.registerGlobalReceiver(C2SStringPayload.TYPE, C2SStringHandler);
+            ServerPlayNetworking.registerGlobalReceiver(StringPayload.TYPE, C2SStringHandler);
             //ClientPlayNetworking.registerGlobalReceiver(S2CStringPayload.TYPE, S2CStringHandler);
 
             CoreLog.debug("ServerHandlerManager#registerDefaultReceivers(): registerDataHandler()");
-            ServerPlayNetworking.registerGlobalReceiver(C2SDataPayload.TYPE, C2SDataHandler);
+            ServerPlayNetworking.registerGlobalReceiver(DataPayload.TYPE, C2SDataHandler);
             //ClientPlayNetworking.registerGlobalReceiver(S2CDataPayload.TYPE, S2CDataHandler);
 
             CoreLog.debug("ServerHandlerManager#registerDefaultReceivers(): END.");
@@ -39,11 +38,11 @@ public class ServerHandlerManager {
             CoreLog.debug("ServerHandlerManager#unregisterDefaultReceivers(): isServer() true.");
             CoreLog.debug("ServerHandlerManager#unregisterDefaultReceivers(): registerStringHandler()");
 
-            ServerPlayNetworking.unregisterGlobalReceiver(C2SStringPayload.TYPE.id());
+            ServerPlayNetworking.unregisterGlobalReceiver(StringPayload.TYPE.id());
             //ClientPlayNetworking.unregisterGlobalReceiver(S2CStringPayload.TYPE.id());
 
             CoreLog.debug("ServerHandlerManager#unregisterDefaultReceivers(): registerDataHandler()");
-            ServerPlayNetworking.unregisterGlobalReceiver(C2SDataPayload.TYPE.id());
+            ServerPlayNetworking.unregisterGlobalReceiver(DataPayload.TYPE.id());
             //ClientPlayNetworking.unregisterGlobalReceiver(S2CDataPayload.TYPE.id());
 
             CoreLog.debug("ServerHandlerManager#unregisterDefaultReceivers(): END.");
