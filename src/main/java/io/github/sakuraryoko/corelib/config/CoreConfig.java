@@ -3,7 +3,8 @@ package io.github.sakuraryoko.corelib.config;
 import io.github.sakuraryoko.corelib.config.main.MainConfig;
 import io.github.sakuraryoko.corelib.config.nodes.MoreColorConfig;
 
-public class CoreConfig {
+public class CoreConfig
+{
     public MainConfig mainCONFIG = new MainConfig();
     public MoreColorConfig colorCONFIG = new MoreColorConfig();
 

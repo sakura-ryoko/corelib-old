@@ -1,14 +1,14 @@
 plugins {
-	id 'fabric-loom' version '1.5-SNAPSHOT'
+	id 'fabric-loom' version '1.6-SNAPSHOT'
 	id 'maven-publish'
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+sourceCompatibility = JavaVersion.VERSION_21
+targetCompatibility = JavaVersion.VERSION_21
 
 archivesBaseName = project.mod_id + '-' + project.minecraft_version
 version = project.mod_version
-group = project.maven_group
+group = project.group
 
 repositories {
 	maven {
@@ -23,14 +23,18 @@ repositories {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	implementation "com.google.code.findbugs:jsr305:3.0.2"
+	implementation "com.google.code.gson:gson:${project.gson_version}"
+
+	// Fabric
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	modImplementation include("eu.pb4:placeholder-api:${project.placeholder_api_version}")
-	modImplementation include("com.google.code.gson:gson:${project.gson_version}")
-	modCompileOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
 
-	//modImplementation include("me.lucko:fabric-permissions-api:${project.fabric_permissions_api_version}")
+	// API Addons
+	modImplementation "eu.pb4:placeholder-api:${project.placeholder_api_version}"
+	modImplementation "me.lucko:fabric-permissions-api:${project.fabric_permissions_api_version}"
+	modCompileOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
 }
 
 processResources {
@@ -42,7 +46,7 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 17
+	it.options.release = 21
 }
 
 java {

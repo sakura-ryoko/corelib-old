@@ -3,7 +3,7 @@ package io.github.sakuraryoko.corelib.commands;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import io.github.sakuraryoko.corelib.network.test.TestSuite;
+import io.github.sakuraryoko.corelib.network.common.TestSuite;
 import io.github.sakuraryoko.corelib.util.CoreLog;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -13,7 +13,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
-public class testCommand {
+public class testCommand
+{
     public static void register()
     {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(

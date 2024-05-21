@@ -1,26 +1,31 @@
 package io.github.sakuraryoko.corelib.nodes;
 
+import java.util.Iterator;
+import java.util.List;
 import eu.pb4.placeholders.api.node.TextNode;
 import eu.pb4.placeholders.api.node.parent.ColorNode;
 import eu.pb4.placeholders.api.parsers.TextParserV1;
 import eu.pb4.placeholders.impl.textparser.TextParserImpl;
-import io.github.sakuraryoko.corelib.util.CoreLog;
 import net.minecraft.text.TextColor;
+import io.github.sakuraryoko.corelib.util.CoreLog;
 
-import java.util.Iterator;
-import java.util.List;
-
-public class NodeManagerV2 {
-    public static void registerColors() {
+public class NodeManagerV2
+{
+    public static void registerColors()
+    {
         final Iterator<MoreColorNode> iterator = MoreColorNode.COLORS.iterator();
         MoreColorNode iColorNode;
-        while (iterator.hasNext()) {
+
+        while (iterator.hasNext())
+        {
             iColorNode = iterator.next();
             if (iColorNode.isRegistered())
                 continue;
+
             // DataResult checked at initialization
             TextColor finalIColorNode = iColorNode.getColor();
-            if (iColorNode.getAliases() != null) {
+            if (iColorNode.getAliases() != null)
+            {
                 TextParserV1.registerDefault(
                         TextParserV1.TextTag.of(
                                 iColorNode.getName(),
@@ -31,7 +36,9 @@ public class NodeManagerV2 {
                         )
                 );
                 CoreLog.debug("NodeManagerV2.registerColors() -- Registering "+ iColorNode.getName()+" with hexCode: "+iColorNode.getHexCode()+" successful, with aliases of: "+iColorNode.getAliases().toString());
-            } else {
+            }
+            else
+            {
                 TextParserV1.registerDefault(
                         TextParserV1.TextTag.of(
                                 iColorNode.getName(),
@@ -46,18 +53,24 @@ public class NodeManagerV2 {
             iColorNode.registerColor();
         }
     }
-    public static void registerNodes() {
+
+    public static void registerNodes()
+    {
         registerColors();
     }
 
     // Copied wrap() from TextTags.java
-    private static TextParserV1.TagNodeBuilder wrap(Wrapper wrapper) {
-        return (tag, data, input, handlers, endAt) -> {
+    private static TextParserV1.TagNodeBuilder wrap(Wrapper wrapper)
+    {
+        return (tag, data, input, handlers, endAt) ->
+        {
             var out = TextParserImpl.recursiveParsing(input, handlers, endAt);
             return new TextParserV1.TagNodeValue(wrapper.wrap(out.nodes(), data), out.length());
         };
     }
-    interface Wrapper {
+
+    interface Wrapper
+    {
         TextNode wrap(TextNode[] nodes, String arg);
     }
 }

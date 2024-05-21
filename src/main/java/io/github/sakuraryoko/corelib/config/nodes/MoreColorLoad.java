@@ -1,18 +1,23 @@
 package io.github.sakuraryoko.corelib.config.nodes;
 
+import java.util.List;
+import java.util.Map;
 import io.github.sakuraryoko.corelib.nodes.MoreColorNode;
 import io.github.sakuraryoko.corelib.nodes.NodeManagerV2;
 import io.github.sakuraryoko.corelib.util.CoreLog;
 
-import java.util.List;
-import java.util.Map;
-
-public class MoreColorLoad {
-    public static void defaults(MoreColorConfig cfg) {
+public class MoreColorLoad
+{
+    public static void defaults(MoreColorConfig cfg)
+    {
         // Check for default values
+        cfg.COLORS.putIfAbsent("bluetiful","#3C69E7");
+        cfg.ALIASES.putIfAbsent("bluetiful", List.of("blue2"));
         cfg.COLORS.putIfAbsent("brown","#632C04");
         cfg.COLORS.putIfAbsent("burnt_orange","#FF7034");
+        cfg.ALIASES.putIfAbsent("burnt_orange", List.of("orange2"));
         cfg.COLORS.putIfAbsent("canary", "#FFFF99");
+        cfg.ALIASES.putIfAbsent("canary", List.of("yellow2"));
         cfg.COLORS.putIfAbsent("cool_mint", "#DDEBEC");
         cfg.COLORS.putIfAbsent("copper", "#DA8A67");
         cfg.COLORS.putIfAbsent("cyan","#2D7C9D");
@@ -31,28 +36,40 @@ public class MoreColorLoad {
         cfg.COLORS.putIfAbsent("purple","#A453CE");
         cfg.COLORS.putIfAbsent("royal_purple", "#6B3FA0");
         cfg.COLORS.putIfAbsent("salmon","#FF91A4");
+        cfg.ALIASES.putIfAbsent("salmon", List.of("pink_salmon"));
         cfg.COLORS.putIfAbsent("shamrock","#33CC99");
         cfg.COLORS.putIfAbsent("tickle_me_pink", "#FC80A5");
+        cfg.COLORS.putIfAbsent("ultramarine_blue", "#3F26BF");
+        cfg.ALIASES.putIfAbsent("ultramarine_blue", List.of("ultramarine"));
         CoreLog.debug("MoreColorLoad.defaults() initialized.");
     }
-    public static void update(MoreColorConfig cfg) {
+
+    public static void update(MoreColorConfig cfg)
+    {
         // Refresh existing data values into save file
         CoreLog.debug("MoreColorLoad.refresh() has been called.");
-        for (MoreColorNode iColor : MoreColorNode.COLORS) {
+        for (MoreColorNode iColor : MoreColorNode.COLORS)
+        {
             cfg.COLORS.putIfAbsent(iColor.getName(), iColor.getHexCode());
-            if (iColor.getAliases() != null) {
+            if (iColor.getAliases() != null)
+            {
                 cfg.ALIASES.putIfAbsent(iColor.getName(), iColor.getAliases());
             }
         }
     }
-    public static void execute(MoreColorConfig cfg) {
+
+    public static void execute(MoreColorConfig cfg)
+    {
         // Do this when the Colors are reloaded.
         boolean added = false;
         CoreLog.debug("MoreColorLoad.execute() has been called.");
-        for (Map.Entry<String,String> stringEntry : cfg.COLORS.entrySet()) {
+
+        for (Map.Entry<String,String> stringEntry : cfg.COLORS.entrySet())
+        {
             String colorName = stringEntry.getKey();
             MoreColorNode iColor = MoreColorNode.getColorByName(colorName);
-            if (iColor == null) {
+            if (iColor == null)
+            {
                 List<String> alias = cfg.ALIASES.get(colorName);
                 if (alias == null)
                     MoreColorNode.addColor(colorName, stringEntry.getValue());
@@ -61,10 +78,12 @@ public class MoreColorLoad {
                     CoreLog.debug("Adding aliases to color " + colorName + " named: " + alias);
                 }
                 added = true;
-            } else
+            }
+            else
                 CoreLog.debug("Can't add color: "+colorName+" because it already exists.");
         }
-        if (added) {
+        if (added)
+        {
             CoreLog.debug("Attempting to register any new color nodes.");
             NodeManagerV2.registerColors();
         }

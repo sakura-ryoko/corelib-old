@@ -1,17 +1,20 @@
-package io.github.sakuraryoko.corelib.info;
+package io.github.sakuraryoko.corelib.init;
 
 import io.github.sakuraryoko.corelib.nodes.NodeParserV2;
+import io.github.sakuraryoko.corelib.util.CoreLog;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ContactInformation;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.fabricmc.loader.api.metadata.Person;
+import net.minecraft.MinecraftVersion;
 import net.minecraft.text.Text;
 
 import java.util.*;
 
-public class ModInfo {
+public class ModInitData
+{
     private String MOD_ID;
     private String mcVersion;
     private FabricLoader instance;
@@ -32,18 +35,26 @@ public class ModInfo {
     private String source;
     private String issues;
 
-    protected ModInfo(String modID) {
+    // Server mode
+    private boolean integratedServer;
+    private boolean dedicatedServer;
+    private boolean openToLan;
+
+    public ModInitData(String modID)
+    {
         if (modID.isEmpty())
             return;
-        if (FabricLoader.getInstance().getModContainer("minecraft").isPresent())
-            this.mcVersion = FabricLoader.getInstance().getModContainer("minecraft").get().getMetadata().getVersion().getFriendlyString();
-        else
-            // Apparently, this isn't Minecraft?
-            return;
+
+        this.mcVersion = MinecraftVersion.CURRENT.getName();
         this.instance = FabricLoader.getInstance();
         this.MOD_ID = modID;
         this.envType = this.instance.getEnvironmentType();
-        if (this.instance.getModContainer(this.MOD_ID).isPresent()) {
+        this.integratedServer = false;
+        this.dedicatedServer = false;
+        this.openToLan = false;
+
+        if (this.instance.getModContainer(this.MOD_ID).isPresent())
+        {
             this.modContainer = this.instance.getModContainer(this.MOD_ID).get();
             this.modMetadata = this.modContainer.getMetadata();
             this.modVersion = this.modMetadata.getVersion().getFriendlyString();
@@ -59,10 +70,12 @@ public class ModInfo {
 
             if (this.authors.isEmpty())
                 this.authorString = "";
-            else {
+            else
+            {
                 StringBuilder authoString = new StringBuilder();
                 final Iterator<Person> personIterator = this.authors.iterator();
-                while (personIterator.hasNext()) {
+                while (personIterator.hasNext())
+                {
                     if (authoString.isEmpty())
                         authoString = new StringBuilder(personIterator.next().getName());
                     else
@@ -72,10 +85,12 @@ public class ModInfo {
             }
             if (this.contrib.isEmpty())
                 this.contribString = "";
-            else {
+            else
+            {
                 StringBuilder contribStr = new StringBuilder();
                 final Iterator<Person> personIterator = this.contrib.iterator();
-                while (personIterator.hasNext()) {
+                while (personIterator.hasNext())
+                {
                     if (contribStr.isEmpty())
                         contribStr = new StringBuilder(personIterator.next().getName());
                     else
@@ -85,7 +100,8 @@ public class ModInfo {
             }
             if (this.licenses.isEmpty())
                 this.licenseString = "";
-            else {
+            else
+            {
                 StringBuilder licString = new StringBuilder();
                 final Iterator<String> stringIterator = this.licenses.iterator();
                 while (stringIterator.hasNext()) {
@@ -98,48 +114,82 @@ public class ModInfo {
             }
         }
     }
-    protected String getMCVersion() { return this.mcVersion; }
 
-    protected String getModID() { return this.MOD_ID; }
+    public String getMCVersion() { return this.mcVersion; }
 
-    protected FabricLoader getModInstance() { return this.instance; }
+    public String getModID() { return this.MOD_ID; }
 
-    protected ModContainer getModContainer() { return this.modContainer; }
+    public FabricLoader getModInstance() { return this.instance; }
 
-    protected ModMetadata getModMetadata() { return this.modMetadata; }
+    public ModContainer getModContainer() { return this.modContainer; }
 
-    protected EnvType getModEnv() { return this.envType; }
+    public ModMetadata getModMetadata() { return this.modMetadata; }
 
-    protected boolean isClient() { return this.envType == EnvType.CLIENT; }
-    protected boolean isServer() { return this.envType == EnvType.SERVER; }
-    protected String getModVersion() { return this.modVersion; }
+    public EnvType getModEnv() { return this.envType; }
 
-    protected String getModName() { return this.modName; }
+    public boolean isClient() { return this.envType == EnvType.CLIENT; }
 
-    protected String getModDesc() { return this.description; }
+    public boolean isServer() { return this.envType == EnvType.SERVER; }
 
-    protected Collection<Person> getModAuthors() { return this.authors; }
+    public boolean isIntegratedServer() { return this.integratedServer; }
 
-    protected Collection<Person> getModContrib() { return this.contrib; }
+    public boolean isDedicatedServer() { return this.dedicatedServer; }
 
-    protected ContactInformation getModContacts() { return this.contacts; }
+    public boolean isOpenToLan() { return this.openToLan; }
 
-    protected Collection<String> getModLicense() { return this.licenses; }
+    public void setIntegratedServer(boolean toggle)
+    {
+        this.integratedServer = this.isClient() && toggle;
+    }
 
-    protected String getModAuthor$String() { return this.authorString; }
+    public void setDedicatedServer(boolean toggle)
+    {
+        this.dedicatedServer = this.isServer() && toggle;
+    }
 
-    protected String getModContrib$String() { return this.contribString; }
+    public void setOpenToLan(boolean toggle)
+    {
+        if (this.isClient() && toggle)
+        {
+            this.openToLan = true;
+            this.integratedServer = true;
+        }
+        else
+        {
+            this.openToLan = false;
+        }
+    }
 
-    protected String getModLicense$String() { return this.licenseString; }
+    public String getModVersion() { return this.modVersion; }
 
-    protected String getModHomepage() { return this.homepage; }
+    public String getModName() { return this.modName; }
 
-    protected String getModSources() { return this.source; }
+    public String getModDesc() { return this.description; }
 
-    protected String getModIssues() { return this.issues; }
+    public Collection<Person> getModAuthors() { return this.authors; }
 
-    protected Map<String, String> getModBasicInfo() {
+    public Collection<Person> getModContrib() { return this.contrib; }
+
+    public ContactInformation getModContacts() { return this.contacts; }
+
+    public Collection<String> getModLicense() { return this.licenses; }
+
+    public String getModAuthor$String() { return this.authorString; }
+
+    public String getModContrib$String() { return this.contribString; }
+
+    public String getModLicense$String() { return this.licenseString; }
+
+    public String getModHomepage() { return this.homepage; }
+
+    public String getModSources() { return this.source; }
+
+    public String getModIssues() { return this.issues; }
+
+    public Map<String, String> getModBasicInfo()
+    {
         Map<String, String> basicInfo = new HashMap<>();
+
         basicInfo.put("ver",  this.modName+"-"+this.mcVersion+"-"+this.modVersion);
         basicInfo.put("auth", "Author: "+this.authorString);
         basicInfo.put("con",  "Contrib: "+this.contribString);
@@ -148,11 +198,14 @@ public class ModInfo {
         basicInfo.put("src",  "Source: "+this.source);
         basicInfo.put("iss",  "Issues: "+this.issues);
         basicInfo.put("desc", "Description: "+this.description);
+
         return basicInfo;
     }
 
-    protected Map<String, Text> getModFormattedInfo() {
+    public Map<String, Text> getModFormattedInfo()
+    {
         Map <String, Text> fmtInfo = new HashMap<>();
+
         fmtInfo.put("ver",  Text.of(this.modName+"-"+this.mcVersion+"-"+this.modVersion));
         fmtInfo.put("auth", NodeParserV2.parse("Author: <pink>"+this.authorString+"</pink>"));
         fmtInfo.put("con",  NodeParserV2.parse("Contrib: <lime>"+this.contribString+"</lime>"));
@@ -161,6 +214,15 @@ public class ModInfo {
         fmtInfo.put("src",  NodeParserV2.parse("Source: <cyan><url:'"+this.source+"'>"+this.source+"</url></cyan>"));
         fmtInfo.put("iss",  NodeParserV2.parse("Issues: <cyan><url:'"+this.issues+"'>"+this.issues+"</url></cyan>"));
         fmtInfo.put("desc", NodeParserV2.parse("Description: <light_blue>"+this.description+"</light_blue>"));
+
         return fmtInfo;
+    }
+
+    public void reset()
+    {
+        CoreLog.debug("ModInitData: reset()");
+        this.integratedServer = false;
+        this.openToLan = false;
+        this.dedicatedServer = false;
     }
 }

@@ -5,12 +5,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import io.github.sakuraryoko.corelib.config.main.*;
 import io.github.sakuraryoko.corelib.config.nodes.*;
-import io.github.sakuraryoko.corelib.info.ModManager;
+import io.github.sakuraryoko.corelib.CoreInitHandler;
 import io.github.sakuraryoko.corelib.util.CoreLog;
 
 import java.nio.file.Files;
 
-public class ConfigManager {
+public class ConfigManager
+{
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().setLenient()
             .create();
     private static MainConfig mainConfig;
@@ -21,19 +22,23 @@ public class ConfigManager {
     public static MainConfig getMainConfig() { return mainConfig; }
     public static MoreColorConfig getColorConfig() { return colorConfig; }
 
-    public static boolean loadMainConfig() {
+    public static boolean loadMainConfig()
+    {
         mainLoad = false;
         mainConfig = null;
         try {
-            var configDir = ModManager.getModInstance().getConfigDir().resolve(ModManager.getID());
+            var configDir = CoreInitHandler.getInstance().getModInstance().getConfigDir().resolve(CoreInitHandler.getInstance().getModId());
             MainConfig conf;
             if (!Files.isDirectory(configDir))
                 Files.createDirectory(configDir);
             var configFile = configDir.resolve("main.json");
-            if (Files.exists(configFile)) {
+            if (Files.exists(configFile))
+            {
                 var getData = JsonParser.parseString(Files.readString(configFile));
                 conf = GSON.fromJson(getData, MainConfig.class);
-            } else {
+            }
+            else
+            {
                 conf = new MainConfig();
                 MainLoad.defaults(conf);
             }
@@ -43,25 +48,32 @@ public class ConfigManager {
             mainConfig = conf;
             MainLoad.execute(conf);
             mainLoad = true;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             mainLoad = false;
             CoreLog.error("loadMainConfig() -> Error reading Main Config. "+e.getMessage());
         }
         return mainLoad;
     }
-    public static boolean loadColorConfig() {
+
+    public static boolean loadColorConfig()
+    {
         colorLoad = false;
         colorConfig = null;
         try {
-            var configDir = ModManager.getModInstance().getConfigDir().resolve(ModManager.getID());
+            var configDir = CoreInitHandler.getInstance().getModInstance().getConfigDir().resolve(CoreInitHandler.getInstance().getModId());
             MoreColorConfig conf;
             if (!Files.isDirectory(configDir))
                 Files.createDirectory(configDir);
             var configFile = configDir.resolve("more-colors.json");
-            if (Files.exists(configFile)) {
+            if (Files.exists(configFile))
+            {
                 var getData = JsonParser.parseString(Files.readString(configFile));
                 conf = GSON.fromJson(getData, MoreColorConfig.class);
-            } else {
+            }
+            else
+            {
                 conf = new MoreColorConfig();
                 MoreColorLoad.defaults(conf);
             }
@@ -70,15 +82,21 @@ public class ConfigManager {
             colorConfig = conf;
             MoreColorLoad.execute(conf);
             colorLoad = true;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             colorLoad = false;
             CoreLog.error("loadColorConfig() -> Error reading More Colors Config. "+e.getMessage());
         }
         return colorLoad;
     }
+
     public static boolean isMainLoad() { return mainLoad; }
+
     public static boolean isColorLoad() { return colorLoad; }
-    public static boolean loadConfig() {
+
+    public static boolean loadConfig()
+    {
         CoreLog.info("Loading all config files.");
         if (loadMainConfig())
             return loadColorConfig();

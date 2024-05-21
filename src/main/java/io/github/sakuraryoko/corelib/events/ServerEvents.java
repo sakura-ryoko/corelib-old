@@ -1,27 +1,41 @@
 package io.github.sakuraryoko.corelib.events;
 
-import io.github.sakuraryoko.corelib.network.ServerHandlerManager;
-import io.github.sakuraryoko.corelib.network.test.ServerDebugSuite;
+import io.github.sakuraryoko.corelib.util.CoreLog;
 
 public class ServerEvents
 {
     public static void starting()
     {
-        ServerDebugSuite.checkGlobalChannels();
+        CoreLog.debug("ServerEvents: server starting");
     }
+
     public static void started()
     {
-        ServerHandlerManager.registerDefaultReceivers();
-        ServerDebugSuite.checkGlobalChannels();
+        CoreLog.debug("ServerEvents: server started");
+    }
+
+    public static void integratedSetup()
+    {
+        CoreLog.debug("ServerEvents: integrated server setup");
+    }
+
+    public static void openToLan()
+    {
+        CoreLog.debug("ServerEvents: open to lan started");
+    }
+
+    public static void dedicatedSetup()
+    {
+        CoreLog.debug("ServerEvents: dedicated server setup");
     }
 
     public static void stopping()
     {
-        ServerHandlerManager.unregisterDefaultReceivers();
-        ServerDebugSuite.checkGlobalChannels();
+        CoreLog.debug("ServerEvents: server stopping");
     }
+
     public static void stopped()
     {
-        ServerDebugSuite.checkGlobalChannels();
+        CoreLog.debug("ServerEvents: server stopped");
     }
 }

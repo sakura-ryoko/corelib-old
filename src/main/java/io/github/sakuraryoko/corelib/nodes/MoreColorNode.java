@@ -1,13 +1,13 @@
 package io.github.sakuraryoko.corelib.nodes;
 
-import com.mojang.serialization.DataResult;
-import io.github.sakuraryoko.corelib.util.CoreLog;
-import net.minecraft.text.TextColor;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import com.mojang.serialization.DataResult;
+import net.minecraft.text.TextColor;
+import io.github.sakuraryoko.corelib.util.CoreLog;
 
-public class MoreColorNode {
+public class MoreColorNode
+{
     private final String name;
     private final String hexCode;
     private List<String> aliases;
@@ -16,31 +16,40 @@ public class MoreColorNode {
     private static final Map<String, MoreColorNode> colorMap = new HashMap<>();
     public static final List<MoreColorNode> COLORS = new ArrayList<>();
 
-    public MoreColorNode(String name, String hexCode) {
-        DataResult<TextColor> dr;
-        dr = TextColor.parse(hexCode);
-        if (dr.error().isEmpty()) {
+    public MoreColorNode(String name, String hexCode)
+    {
+        DataResult<TextColor> dr = TextColor.parse(hexCode);
+
+        if (dr.error().isEmpty())
+        {
             this.name = name;
             this.hexCode = hexCode;
-            this.color = dr.get().left().orElse(null);
+            this.color = dr.result().orElse(null);
             this.registered = false;
             this.aliases = null;
-        } else {
+        }
+        else
+        {
             CoreLog.warn("MoreColorNode("+ name +") is Invalid, error: "+dr.error().toString());
             this.name = "";
             this.hexCode = "";
         }
     }
-    public MoreColorNode(String name, String hexCode, @Nullable List<String> aliases) {
-        DataResult<TextColor> dr;
-        dr = TextColor.parse(hexCode);
-        if (dr.error().isEmpty()) {
+
+    public MoreColorNode(String name, String hexCode, @Nullable List<String> aliases)
+    {
+        DataResult<TextColor> dr = TextColor.parse(hexCode);
+
+        if (dr.error().isEmpty())
+        {
             this.name = name;
             this.hexCode = hexCode;
-            this.color = dr.get().left().orElse(null);
+            this.color = dr.result().orElse(null);
             this.aliases = aliases;
             this.registered = false;
-        } else {
+        }
+        else
+        {
             CoreLog.warn("MoreColorNode("+ name +") is Invalid, error: "+dr.error().toString());
             this.name = "";
             this.hexCode = "";
@@ -48,57 +57,84 @@ public class MoreColorNode {
     }
 
     public String getName() { return this.name; }
+
     public String getHexCode() { return this.hexCode; }
+
     @Nullable
-    public List<String> getAliases() {
+    public List<String> getAliases()
+    {
         if (this.aliases == null)
+        {
             return null;
+        }
         else
+        {
             return this.aliases;
+        }
     }
+
     @Nullable
     public TextColor getColor() { return this.color; }
-    public static void addColor(String name, String hexCode) {
+
+    public static void addColor(String name, String hexCode)
+    {
         MoreColorNode color = new MoreColorNode(name, hexCode);
-        if (color.getName().isEmpty()) {
+
+        if (color.getName().isEmpty())
+        {
             CoreLog.warn("MoreColorNode.addColor("+name+") has failed!");
             return;
         }
-        if (colorMap.get(name) != null) {
+        if (colorMap.get(name) != null)
+        {
             CoreLog.warn("MoreColorNode.addColor("+name+") already exists!");
             return;
         }
+
         COLORS.add(color);
         colorMap.put(name, color);
         CoreLog.debug("MoreColorNode.addColor("+name+") successfully added.");
     }
-    public static void addColor(String name, String hexCode, @Nullable List<String> alias) {
+    public static void addColor(String name, String hexCode, @Nullable List<String> alias)
+    {
         MoreColorNode color = new MoreColorNode(name, hexCode, alias);
-        if (color.getName().isEmpty()) {
+
+        if (color.getName().isEmpty())
+        {
             CoreLog.warn("MoreColorNode.addColor(" + name + ") has failed!");
             return;
         }
-        if (colorMap.get(name) != null) {
+        if (colorMap.get(name) != null)
+        {
             CoreLog.warn("MoreColorNode.addColor("+name+") already exists!");
             return;
         }
+
         COLORS.add(color);
         colorMap.put(name, color);
         CoreLog.debug("MoreColorNode.addColor("+name+") successfully added.");
     }
+
     void registerColor() { this.registered = true; }
+
     @Nullable
     public static MoreColorNode getColorByName(String name) { return colorMap.get(name); }
+
     @Nullable
-    public static MoreColorNode getColorByHex(String hexCode) {
+    public static MoreColorNode getColorByHex(String hexCode)
+    {
         final Iterator<MoreColorNode> iterator = COLORS.iterator();
         MoreColorNode result;
-        while (iterator.hasNext()) {
+
+        while (iterator.hasNext())
+        {
             result = iterator.next();
             if (Objects.equals(result.hexCode, hexCode))
                 return result;
         }
+
         return null;
     }
+
     public boolean isRegistered() { return this.registered; }
 }

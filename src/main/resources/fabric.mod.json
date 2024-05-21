@@ -16,11 +16,8 @@
   "icon": "assets/corelib/icon.png",
   "environment": "*",
   "entrypoints": {
-    "server": [
-      "io.github.sakuraryoko.corelib.server.CoreLibServer"
-    ],
-    "client": [
-      "io.github.sakuraryoko.corelib.client.CoreLibClient"
+    "main": [
+      "io.github.sakuraryoko.corelib.CoreLib"
     ]
   },
   "mixins": [
@@ -28,10 +25,9 @@
   ],
   "depends": {
     "placeholder-api": "*",
-    "fabricloader": ">=0.15.6",
-    "fabric": ">=0.95.2",
-    "minecraft": ">=1.20.4",
-    "java": ">=17"
+    "fabricloader": ">=0.15.10",
+    "fabric": ">=0.97.8",
+    "minecraft": ">=1.20.6"
   },
   "custom": {
     "modmenu": {
