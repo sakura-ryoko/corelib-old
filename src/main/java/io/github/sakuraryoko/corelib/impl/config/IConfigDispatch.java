@@ -9,7 +9,7 @@ public interface IConfigDispatch
     void onPostLoadConfig();
     void onPreSaveConfig();
     void onPostSaveConfig();
-    void defaults(IConfigData data);
-    void update(IConfigData data);
-    void execute(IConfigData data);
+    IConfigData defaults();
+    IConfigData update(IConfigData data);
+    void execute();
 }

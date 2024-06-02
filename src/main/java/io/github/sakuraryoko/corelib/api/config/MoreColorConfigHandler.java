@@ -58,48 +58,54 @@ public class MoreColorConfigHandler implements IConfigDispatch
     }
 
     @Override
-    public void defaults(IConfigData data)
+    public MoreColorConfigData defaults()
     {
+        MoreColorConfigData newConf = this.newConfig();
+
         // Check for default values
-        CONFIG.COLORS.putIfAbsent("bluetiful","#3C69E7");
-        CONFIG.ALIASES.putIfAbsent("bluetiful", List.of("blue2"));
-        CONFIG.COLORS.putIfAbsent("brown","#632C04");
-        CONFIG.COLORS.putIfAbsent("burnt_orange","#FF7034");
-        CONFIG.ALIASES.putIfAbsent("burnt_orange", List.of("orange2"));
-        CONFIG.COLORS.putIfAbsent("canary", "#FFFF99");
-        CONFIG.ALIASES.putIfAbsent("canary", List.of("yellow2"));
-        CONFIG.COLORS.putIfAbsent("cool_mint", "#DDEBEC");
-        CONFIG.COLORS.putIfAbsent("copper", "#DA8A67");
-        CONFIG.COLORS.putIfAbsent("cyan","#2D7C9D");
-        CONFIG.COLORS.putIfAbsent("dark_brown","#421F05");
-        CONFIG.COLORS.putIfAbsent("dark_pink","#DE8BB4");
-        CONFIG.COLORS.putIfAbsent("light_blue","#82ACE7");
-        CONFIG.COLORS.putIfAbsent("light_brown","#7A4621");
-        CONFIG.COLORS.putIfAbsent("light_gray","#BABAC1");
-        CONFIG.ALIASES.putIfAbsent("light_gray", List.of("light_grey"));
-        CONFIG.COLORS.putIfAbsent("light_pink","#F7B4D6");
-        CONFIG.COLORS.putIfAbsent("lime","#76C610");
-        CONFIG.COLORS.putIfAbsent("magenta","#CB69C5");
-        CONFIG.COLORS.putIfAbsent("orange","#E69E34");
-        CONFIG.COLORS.putIfAbsent("pink","#EDA7CB");
-        CONFIG.COLORS.putIfAbsent("powder_blue", "#C0D5F0");
-        CONFIG.COLORS.putIfAbsent("purple","#A453CE");
-        CONFIG.COLORS.putIfAbsent("royal_purple", "#6B3FA0");
-        CONFIG.COLORS.putIfAbsent("salmon","#FF91A4");
-        CONFIG.ALIASES.putIfAbsent("salmon", List.of("pink_salmon"));
-        CONFIG.COLORS.putIfAbsent("shamrock","#33CC99");
-        CONFIG.COLORS.putIfAbsent("tickle_me_pink", "#FC80A5");
-        CONFIG.COLORS.putIfAbsent("ultramarine_blue", "#3F26BF");
-        CONFIG.ALIASES.putIfAbsent("ultramarine_blue", List.of("ultramarine"));
+        newConf.COLORS.putIfAbsent("bluetiful","#3C69E7");
+        newConf.ALIASES.putIfAbsent("bluetiful", List.of("blue2"));
+        newConf.COLORS.putIfAbsent("brown","#632C04");
+        newConf.COLORS.putIfAbsent("burnt_orange","#FF7034");
+        newConf.ALIASES.putIfAbsent("burnt_orange", List.of("orange2"));
+        newConf.COLORS.putIfAbsent("canary", "#FFFF99");
+        newConf.ALIASES.putIfAbsent("canary", List.of("yellow2"));
+        newConf.COLORS.putIfAbsent("cool_mint", "#DDEBEC");
+        newConf.COLORS.putIfAbsent("copper", "#DA8A67");
+        newConf.COLORS.putIfAbsent("cyan","#2D7C9D");
+        newConf.COLORS.putIfAbsent("dark_brown","#421F05");
+        newConf.COLORS.putIfAbsent("dark_pink","#DE8BB4");
+        newConf.COLORS.putIfAbsent("light_blue","#82ACE7");
+        newConf.COLORS.putIfAbsent("light_brown","#7A4621");
+        newConf.COLORS.putIfAbsent("light_gray","#BABAC1");
+        newConf.ALIASES.putIfAbsent("light_gray", List.of("light_grey"));
+        newConf.COLORS.putIfAbsent("light_pink","#F7B4D6");
+        newConf.COLORS.putIfAbsent("lime","#76C610");
+        newConf.COLORS.putIfAbsent("magenta","#CB69C5");
+        newConf.COLORS.putIfAbsent("orange","#E69E34");
+        newConf.COLORS.putIfAbsent("pink","#EDA7CB");
+        newConf.COLORS.putIfAbsent("powder_blue", "#C0D5F0");
+        newConf.COLORS.putIfAbsent("purple","#A453CE");
+        newConf.COLORS.putIfAbsent("royal_purple", "#6B3FA0");
+        newConf.COLORS.putIfAbsent("salmon","#FF91A4");
+        newConf.ALIASES.putIfAbsent("salmon", List.of("pink_salmon"));
+        newConf.COLORS.putIfAbsent("shamrock","#33CC99");
+        newConf.COLORS.putIfAbsent("tickle_me_pink", "#FC80A5");
+        newConf.COLORS.putIfAbsent("ultramarine_blue", "#3F26BF");
+        newConf.ALIASES.putIfAbsent("ultramarine_blue", List.of("ultramarine"));
         CoreLog.debug("MoreColorConfigHandler.defaults() initialized.");
+
+        return newConf;
     }
 
     @Override
-    public void update(IConfigData data)
+    public MoreColorConfigData update(IConfigData newData)
     {
-        // Refresh existing data values into save file
+        MoreColorConfigData newConf = (MoreColorConfigData) newData;
         CoreLog.debug("MoreColorConfigHandler.refresh() has been called.");
 
+        // Refresh existing data values into save file
+/*
         for (MoreColorNode iColor : MoreColorNode.COLORS)
         {
             CONFIG.COLORS.putIfAbsent(iColor.getName(), iColor.getHexCode());
@@ -108,15 +114,18 @@ public class MoreColorConfigHandler implements IConfigDispatch
                 CONFIG.ALIASES.putIfAbsent(iColor.getName(), iColor.getAliases());
             }
         }
+ */
+
+        return CONFIG;
     }
 
     @Override
-    public void execute(IConfigData data)
+    public void execute()
     {
-        // Do this when the Colors are reloaded.
         boolean added = false;
         CoreLog.debug("MoreColorConfigHandler.execute() has been called.");
 
+        // Do this when the Colors are reloaded.
         for (Map.Entry<String,String> stringEntry : CONFIG.COLORS.entrySet())
         {
             String colorName = stringEntry.getKey();

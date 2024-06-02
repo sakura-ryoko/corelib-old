@@ -85,38 +85,10 @@ public class ConfigHandler implements IConfigManager
         {
             this.handlers.forEach((modid, object) ->
             {
-                IConfigData conf = object.getHandler().getConfig();
-                object.getHandler().defaults(conf);
-            });
-        }
-    }
-
-    @ApiStatus.Internal
-    public void updateAll()
-    {
-        CoreLog.debug("updateAll()");
-
-        if (!this.handlers.isEmpty())
-        {
-            this.handlers.forEach((modid, object) ->
-            {
-                IConfigData conf = object.getHandler().getConfig();
+                IConfigData conf;
+                conf = object.getHandler().defaults();
                 object.getHandler().update(conf);
-            });
-        }
-    }
-
-    @ApiStatus.Internal
-    public void executeAll()
-    {
-        CoreLog.debug("executeAll()");
-
-        if (!this.handlers.isEmpty())
-        {
-            this.handlers.forEach((modid, object) ->
-            {
-                IConfigData conf = object.getHandler().getConfig();
-                object.getHandler().execute(conf);
+                object.getHandler().execute();
             });
         }
     }
@@ -159,12 +131,12 @@ public class ConfigHandler implements IConfigManager
             }
             else
             {
-                object.getHandler().defaults(conf);
+                conf = object.getHandler().defaults();
             }
 
-            object.getHandler().update(conf);
+            conf = object.getHandler().update(conf);
             Files.writeString(configFile, GSON.toJson(conf));
-            object.getHandler().execute(conf);
+            object.getHandler().execute();
 
             this.isLoaded.put(object.getModid(), true);
         }

@@ -55,28 +55,35 @@ public class MainConfigHandler implements IConfigDispatch
     }
 
     @Override
-    public void defaults(IConfigData data)
+    public MainConfigData defaults()
     {
-        // Initialize default settings
-        CONFIG.config_date = Util.getFormattedCurrentTime();
+        MainConfigData conf = this.newConfig();
         CoreLog.debug("MainConfigHandler.defaults() has been called.");
+
+        conf.config_date = Util.getFormattedCurrentTime();
+
+        return conf;
     }
 
     @Override
-    public void update(IConfigData data)
+    public MainConfigData update(IConfigData newConfig)
     {
+        MainConfigData newConf = (MainConfigData) newConfig;
         CoreLog.debug("MainConfigHandler.refresh() has been called.");
 
-        CoreLog.debug("MainConfigHandler.refresh(): last config_date: {}", CONFIG.config_date);
-        // Refresh Date / Mod Version.
+        // Refresh Data from Config
         CONFIG.config_date = Util.getFormattedCurrentTime();
-        CoreLog.debug("MainConfigHandler.refresh(): new config_date: {}", CONFIG.config_date);
+        CoreLog.debug("MainConfigHandler.refresh(): config_date: {} --> {}", newConf.config_date, CONFIG.config_date);
+
+        return CONFIG;
     }
 
     @Override
-    public void execute(IConfigData data)
+    public void execute()
     {
-        // Do this when the Main Config gets reloaded.
         CoreLog.debug("MainConfigHandler.execute() has been called.");
+
+        // Do this when the Main Config gets reloaded.
+        CoreLog.debug("MainConfigHandler.execute(): new config_date: {}", CONFIG.config_date);
     }
 }
