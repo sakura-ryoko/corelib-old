@@ -9,7 +9,7 @@ import eu.pb4.placeholders.impl.textparser.TextParserImpl;
 import net.minecraft.text.TextColor;
 import io.github.sakuraryoko.corelib.util.CoreLog;
 
-public class NodeManagerV2
+public class NodeManagerV1
 {
     public static void registerColors()
     {
@@ -35,7 +35,7 @@ public class NodeManagerV2
                                 wrap((nodes, arg) -> new ColorNode(nodes, finalIColorNode))
                         )
                 );
-                CoreLog.debug("NodeManagerV2.registerColors() -- Registering "+ iColorNode.getName()+" with hexCode: "+iColorNode.getHexCode()+" successful, with aliases of: "+iColorNode.getAliases().toString());
+                CoreLog.debug("NodeManagerV1.registerColors() -- Registering "+ iColorNode.getName()+" with hexCode: "+iColorNode.getHexCode()+" successful, with aliases of: "+iColorNode.getAliases().toString());
             }
             else
             {
@@ -48,7 +48,7 @@ public class NodeManagerV2
                                 wrap((nodes, arg) -> new ColorNode(nodes, finalIColorNode))
                         )
                 );
-                CoreLog.debug("NodeManagerV2.registerColors() -- Registering "+ iColorNode.getName()+" with hexCode: "+iColorNode.getHexCode()+" successful.");
+                CoreLog.debug("NodeManagerV1.registerColors() -- Registering "+ iColorNode.getName()+" with hexCode: "+iColorNode.getHexCode()+" successful.");
             }
             iColorNode.registerColor();
         }

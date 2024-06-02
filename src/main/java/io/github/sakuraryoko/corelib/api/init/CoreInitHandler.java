@@ -80,7 +80,7 @@ public class CoreInitHandler implements IModInitDispatch
         ConfigHandlerObject mainConfigObject = new ConfigHandlerObject(mainConfigHandler, mainConfigHandler.getConfig(), this.MOD_ID, true);
         ConfigHandler.getInstance().registerModConfigHandler(mainConfigObject);
 
-        //NodeManagerV2.registerNodes();
+        //NodeManagerV1.registerNodes();
         //testCommand.register();
         CoreLog.debug("Successful initialization.");
     }

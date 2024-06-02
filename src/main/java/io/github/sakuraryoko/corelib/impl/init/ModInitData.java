@@ -12,7 +12,7 @@ import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.fabricmc.loader.api.metadata.Person;
 import net.minecraft.MinecraftVersion;
 import net.minecraft.text.Text;
-import io.github.sakuraryoko.corelib.api.nodes.NodeParserV2;
+import io.github.sakuraryoko.corelib.api.nodes.NodeParserV1;
 import io.github.sakuraryoko.corelib.util.CoreLog;
 
 public class ModInitData
@@ -209,13 +209,13 @@ public class ModInitData
         Map <String, Text> fmtInfo = new HashMap<>();
 
         fmtInfo.put("ver",  Text.of(this.modName+"-"+this.mcVersion+"-"+this.modVersion));
-        fmtInfo.put("auth", NodeParserV2.parse("Author: <pink>"+this.authorString+"</pink>"));
-        fmtInfo.put("con",  NodeParserV2.parse("Contrib: <lime>"+this.contribString+"</lime>"));
-        fmtInfo.put("lic",  NodeParserV2.parse("License: <yellow>"+this.licenseString+"</yellow>"));
-        fmtInfo.put("home", NodeParserV2.parse("Homepage: <cyan><url:'"+this.homepage+"'>"+this.homepage+"</url></cyan>"));
-        fmtInfo.put("src",  NodeParserV2.parse("Source: <cyan><url:'"+this.source+"'>"+this.source+"</url></cyan>"));
-        fmtInfo.put("iss",  NodeParserV2.parse("Issues: <cyan><url:'"+this.issues+"'>"+this.issues+"</url></cyan>"));
-        fmtInfo.put("desc", NodeParserV2.parse("Description: <light_blue>"+this.description+"</light_blue>"));
+        fmtInfo.put("auth", NodeParserV1.parse("Author: <pink>"+this.authorString+"</pink>"));
+        fmtInfo.put("con",  NodeParserV1.parse("Contrib: <lime>"+this.contribString+"</lime>"));
+        fmtInfo.put("lic",  NodeParserV1.parse("License: <yellow>"+this.licenseString+"</yellow>"));
+        fmtInfo.put("home", NodeParserV1.parse("Homepage: <cyan><url:'"+this.homepage+"'>"+this.homepage+"</url></cyan>"));
+        fmtInfo.put("src",  NodeParserV1.parse("Source: <cyan><url:'"+this.source+"'>"+this.source+"</url></cyan>"));
+        fmtInfo.put("iss",  NodeParserV1.parse("Issues: <cyan><url:'"+this.issues+"'>"+this.issues+"</url></cyan>"));
+        fmtInfo.put("desc", NodeParserV1.parse("Description: <light_blue>"+this.description+"</light_blue>"));
 
         return fmtInfo;
     }

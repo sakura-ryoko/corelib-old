@@ -3,7 +3,7 @@ package io.github.sakuraryoko.corelib.api.config;
 import java.util.List;
 import java.util.Map;
 import io.github.sakuraryoko.corelib.api.nodes.MoreColorNode;
-import io.github.sakuraryoko.corelib.api.nodes.NodeManagerV2;
+import io.github.sakuraryoko.corelib.api.nodes.NodeManagerV1;
 import io.github.sakuraryoko.corelib.impl.config.IConfigData;
 import io.github.sakuraryoko.corelib.impl.config.IConfigDispatch;
 import io.github.sakuraryoko.corelib.util.CoreLog;
@@ -147,7 +147,7 @@ public class MoreColorConfigHandler implements IConfigDispatch
         if (added)
         {
             CoreLog.debug("Attempting to register any new color nodes.");
-            NodeManagerV2.registerColors();
+            NodeManagerV1.registerColors();
         }
     }
 }
