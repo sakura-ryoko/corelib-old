@@ -2,7 +2,7 @@ package io.github.sakuraryoko.corelib.util;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import io.github.sakuraryoko.corelib.CoreInitHandler;
+import io.github.sakuraryoko.corelib.api.init.CoreInitHandler;
 
 public class CoreLog
 {

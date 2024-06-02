@@ -21,7 +21,7 @@
     ]
   },
   "mixins": [
-    "corelib.mixins.json"
+      "corelib.impl.mixins.json"
   ],
   "depends": {
     "placeholder-api": "*",
