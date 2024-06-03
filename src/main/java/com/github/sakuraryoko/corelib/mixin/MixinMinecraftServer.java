@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldGenerationProgressListener;
-import com.github.sakuraryoko.corelib.api.events.ServerEvents;
+import com.github.sakuraryoko.corelib.impl.events.ServerEvents;
 import com.github.sakuraryoko.corelib.api.init.ModInitHandler;
 
 @Mixin(MinecraftServer.class)

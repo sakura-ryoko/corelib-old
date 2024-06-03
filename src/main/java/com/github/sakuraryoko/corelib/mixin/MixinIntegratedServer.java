@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.world.GameMode;
-import com.github.sakuraryoko.corelib.api.events.ServerEvents;
+import com.github.sakuraryoko.corelib.impl.events.ServerEvents;
 import com.github.sakuraryoko.corelib.api.init.ModInitHandler;
 
 @Mixin(IntegratedServer.class)

@@ -1,4 +1,4 @@
-package com.github.sakuraryoko.corelib.api.events;
+package com.github.sakuraryoko.corelib.impl.events;
 
 import com.github.sakuraryoko.corelib.api.config.ConfigHandler;
 import com.github.sakuraryoko.corelib.util.CoreLog;

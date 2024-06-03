@@ -13,7 +13,7 @@ import net.minecraft.server.dedicated.MinecraftDedicatedServer;
 import net.minecraft.server.dedicated.ServerPropertiesLoader;
 import net.minecraft.util.ApiServices;
 import net.minecraft.world.level.storage.LevelStorage;
-import com.github.sakuraryoko.corelib.api.events.ServerEvents;
+import com.github.sakuraryoko.corelib.impl.events.ServerEvents;
 import com.github.sakuraryoko.corelib.api.init.ModInitHandler;
 
 @Mixin(MinecraftDedicatedServer.class)

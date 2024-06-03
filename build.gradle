@@ -6,10 +6,6 @@ plugins {
 sourceCompatibility = JavaVersion.VERSION_21
 targetCompatibility = JavaVersion.VERSION_21
 
-archivesBaseName = project.mod_id + '-' + project.minecraft_version
-version = project.mod_version
-group = project.group
-
 repositories {
 	maven {
 		name "Nucleoid"
@@ -24,13 +20,16 @@ repositories {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	implementation "com.google.code.findbugs:jsr305:3.0.2"
 	implementation "com.google.code.gson:gson:${project.gson_version}"
+	implementation "com.google.code.findbugs:jsr305:3.0.2"
 
 	// Fabric
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	mappings "net.fabricmc:yarn:${project.mappings_version}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	include(modApi(fabricApi.module("fabric-api-base", project.fabric_api_version)))
+	include(modApi(fabricApi.module("fabric-networking-api-v1", project.fabric_api_version)))
+	include(modApi(fabricApi.module("fabric-command-api-v2", project.fabric_api_version)))
+	include(modApi(fabricApi.module("fabric-resource-loader-v0", project.fabric_api_version)))
 
 	// API Addons
 	modImplementation "eu.pb4:placeholder-api:${project.placeholder_api_version}"
@@ -38,15 +37,24 @@ dependencies {
 	// modCompileOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
 }
 
+group = project.group + "." + project.mod_id
+archivesBaseName = project.mod_file_name + '-' + project.minecraft_version_out
+version = project.mod_version
+
+if (version.endsWith('-dev')) {
+	version += "." + new Date().format('yyyyMMdd.HHmmss')
+}
+
 processResources {
-	inputs.property "version", project.version
+	inputs.property "mod_version", project.version
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+		expand "mod_version": project.version
 	}
 }
 
 tasks.withType(JavaCompile).configureEach {
+	it.options.encoding = "UTF-8"
 	it.options.release = 21
 }
 
@@ -60,6 +68,7 @@ jar {
 	}
 }
 
+tasks.publish.dependsOn build
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
@@ -70,5 +79,8 @@ publishing {
 
 	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
 	repositories {
+		maven {
+			url "$projectDir/../../CommonMaven"
+		}
 	}
 }

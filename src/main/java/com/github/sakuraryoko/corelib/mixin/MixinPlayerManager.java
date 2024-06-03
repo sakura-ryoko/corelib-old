@@ -8,7 +8,7 @@ import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ConnectedClientData;
 import net.minecraft.server.network.ServerPlayerEntity;
-import com.github.sakuraryoko.corelib.api.events.PlayerEvents;
+import com.github.sakuraryoko.corelib.impl.events.PlayerEvents;
 
 @Mixin(PlayerManager.class)
 public abstract class MixinPlayerManager

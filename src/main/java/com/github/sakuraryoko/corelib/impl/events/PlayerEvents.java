@@ -1,4 +1,4 @@
-package com.github.sakuraryoko.corelib.api.events;
+package com.github.sakuraryoko.corelib.impl.events;
 
 import net.minecraft.server.network.ServerPlayerEntity;
 import com.github.sakuraryoko.corelib.util.CoreLog;

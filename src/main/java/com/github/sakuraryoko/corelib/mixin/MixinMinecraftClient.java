@@ -13,7 +13,7 @@ import net.minecraft.client.gui.screen.DownloadingTerrainScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.server.integrated.IntegratedServer;
-import com.github.sakuraryoko.corelib.api.events.ClientEvents;
+import com.github.sakuraryoko.corelib.impl.events.ClientEvents;
 import com.github.sakuraryoko.corelib.api.init.ModInitHandler;
 
 @Mixin(MinecraftClient.class)

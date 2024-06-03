@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "corelib",
-  "version": "${version}",
+  "version": "${mod_version}",
   "name": "CoreLib",
   "description": "Sakura Ryoko's Core Library API",
   "authors": [
@@ -24,10 +24,10 @@
     "corelib.mixins.json"
   ],
   "depends": {
+    "minecraft": ">=1.21-beta.2",
     "placeholder-api": "*",
-    "fabricloader": ">=0.15.11",
-    "fabric": ">=0.99.4",
-    "minecraft": ">=1.21-beta.2"
+    "fabric-networking-api-v1": ">=4.0.12",
+    "fabric-resource-loader-v0": "*"
   },
   "custom": {
     "modmenu": {
