@@ -1,6 +1,8 @@
 package com.github.sakuraryoko.corelib.impl.events;
 
 import com.github.sakuraryoko.corelib.api.config.ConfigHandler;
+import com.github.sakuraryoko.corelib.impl.init.CoreInitHandler;
+import com.github.sakuraryoko.corelib.impl.text.NodeManagerV1;
 import com.github.sakuraryoko.corelib.util.CoreLog;
 
 public class ClientEvents
@@ -13,14 +15,17 @@ public class ClientEvents
     public static void worldChangePost()
     {
         CoreLog.debug("ClientEvents: World Change Post");
-
     }
 
     public static void joining()
     {
         CoreLog.debug("ClientEvents: joining");
 
-        ((ConfigHandler) ConfigHandler.getInstance()).loadAllConfigs();
+        if (!CoreInitHandler.getInstance().isIntegratedServer())
+        {
+            ((ConfigHandler) ConfigHandler.getInstance()).loadAllConfigs();
+            NodeManagerV1.registerNodes();
+        }
     }
 
     public static void openConnection()
@@ -32,7 +37,10 @@ public class ClientEvents
     {
         CoreLog.debug("ClientEvents: joined");
 
-        ((ConfigHandler) ConfigHandler.getInstance()).saveAllConfigs();
+        if (!CoreInitHandler.getInstance().isIntegratedServer())
+        {
+            ((ConfigHandler) ConfigHandler.getInstance()).saveAllConfigs();
+        }
     }
 
     public static void onGameJoinPre()
@@ -49,7 +57,10 @@ public class ClientEvents
     {
         CoreLog.debug("ClientEvents: dimension change pre");
 
-        ((ConfigHandler) ConfigHandler.getInstance()).saveAllConfigs();
+        if (!CoreInitHandler.getInstance().isIntegratedServer())
+        {
+            ((ConfigHandler) ConfigHandler.getInstance()).saveAllConfigs();
+        }
     }
 
     public static void dimensionChangePost()
@@ -71,6 +82,9 @@ public class ClientEvents
     {
         CoreLog.debug("ClientEvents: disconnected");
 
-        ((ConfigHandler) ConfigHandler.getInstance()).saveAllConfigs();
+        if (!CoreInitHandler.getInstance().isIntegratedServer())
+        {
+            ((ConfigHandler) ConfigHandler.getInstance()).saveAllConfigs();
+        }
     }
 }

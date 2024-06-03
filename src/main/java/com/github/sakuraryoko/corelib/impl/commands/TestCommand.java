@@ -15,7 +15,7 @@ import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
 @ApiStatus.Internal
-public class testCommand
+public class TestCommand
 {
     public static void register()
     {

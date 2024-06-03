@@ -6,6 +6,7 @@ public class ConfigHandlerObject
     private final IConfigData type;
     private final String modid;
     private final String configFile;
+    private final String key;
     private final boolean rootDir;
 
     public ConfigHandlerObject(IConfigDispatch handler, IConfigData data, String modid)
@@ -13,6 +14,7 @@ public class ConfigHandlerObject
         this.handler = handler;
         this.modid = modid;
         this.configFile = modid;
+        this.key = modid + ":" + modid;
         this.rootDir = false;
         this.type = data;
     }
@@ -22,6 +24,7 @@ public class ConfigHandlerObject
         this.handler = handler;
         this.modid = modid;
         this.configFile = modid;
+        this.key = modid + ":" + modid;
         this.rootDir = rootDir;
         this.type = data;
     }
@@ -31,6 +34,7 @@ public class ConfigHandlerObject
         this.handler = handler;
         this.modid = modid;
         this.configFile = file;
+        this.key = modid + ":" + file;
         this.rootDir = false;
         this.type = data;
     }
@@ -40,6 +44,7 @@ public class ConfigHandlerObject
         this.handler = handler;
         this.modid = modid;
         this.configFile = file;
+        this.key = modid + ":" + file;
         this.rootDir = rootDir;
         this.type = data;
     }
@@ -51,6 +56,8 @@ public class ConfigHandlerObject
     public String getModid() { return this.modid; }
 
     public String getConfigFile() { return this.configFile; }
+
+    public String getKey() { return this.key; }
 
     public boolean getRoorDir() { return this.rootDir; }
 }

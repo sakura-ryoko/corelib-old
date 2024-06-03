@@ -22,6 +22,11 @@ public class CoreInitHandler implements IModInitDispatch
     private final String MOD_ID = "corelib";
     private final ModInitData MOD_INFO = new ModInitData(MOD_ID);
 
+    MainConfigHandler mainConfigHandler = new MainConfigHandler();
+    MoreColorConfigHandler moreColorConfigHandler = new MoreColorConfigHandler();
+    public final ConfigHandlerObject MAIN_CONFIG = new ConfigHandlerObject(mainConfigHandler, mainConfigHandler.getConfig(), this.MOD_ID, "main", false);
+    public final ConfigHandlerObject MORE_COLORS = new ConfigHandlerObject(moreColorConfigHandler, moreColorConfigHandler.getConfig(), this.MOD_ID, "more-colors", false);
+
     @Override
     public ModInitData getModInit()
     {
@@ -79,16 +84,9 @@ public class CoreInitHandler implements IModInitDispatch
     {
         for (String s : getBasic(List.of("ver", "auth", "desc"))) CoreLog.info(s);
 
-        MainConfigHandler mainConfigHandler = new MainConfigHandler();
-        ConfigHandlerObject mainConfigObject = new ConfigHandlerObject(mainConfigHandler, mainConfigHandler.getConfig(), this.MOD_ID, true);
-        ConfigHandler.getInstance().registerModConfigHandler(mainConfigObject);
+        ConfigHandler.getInstance().registerModConfigHandler(MAIN_CONFIG);
+        ConfigHandler.getInstance().registerModConfigHandler(MORE_COLORS);
 
-        MoreColorConfigHandler moreColorConfigHandler = new MoreColorConfigHandler();
-        ConfigHandlerObject moreColorConfigObject = new ConfigHandlerObject(moreColorConfigHandler, moreColorConfigHandler.getConfig(), this.MOD_ID, "more-colors", false);
-        ConfigHandler.getInstance().registerModConfigHandler(moreColorConfigObject);
-
-        //NodeManagerV1.registerNodes();
-        //testCommand.register();
         CoreLog.debug("Successful initialization.");
     }
 }

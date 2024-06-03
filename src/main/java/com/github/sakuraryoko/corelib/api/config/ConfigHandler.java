@@ -25,11 +25,44 @@ public class ConfigHandler implements IConfigManager
     @Override
     public void registerModConfigHandler(ConfigHandlerObject object)
     {
-        if (!this.handlers.containsKey(object.getModid()))
+        if (!this.handlers.containsKey(object.getKey()))
         {
-            this.handlers.put(object.getModid(), object);
-            this.isLoaded.put(object.getModid(), false);
+            CoreLog.debug("registerModConfigHandler: {}", object.getModid());
+            this.handlers.put(object.getKey(), object);
+            this.isLoaded.put(object.getKey(), false);
         }
+    }
+
+    /**
+     * Allowed to be used to reload a specific config file
+     */
+    public boolean reloadConfig(ConfigHandlerObject obj)
+    {
+        CoreLog.debug("reloadConfig() for key [{}]", obj.getKey());
+
+        if (this.handlers.containsKey(obj.getKey()))
+        {
+            this.loadEach(obj);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Allowed to be used to see if a specific config file is marked loaded
+     */
+    public boolean isLoaded(ConfigHandlerObject obj)
+    {
+        CoreLog.debug("isLoaded() for key [{}]", obj.getKey());
+
+        if (this.handlers.containsKey(obj.getKey()))
+        {
+            return this.isLoaded.get(obj.getKey());
+        }
+
+        return false;
     }
 
     @ApiStatus.Internal
@@ -39,7 +72,7 @@ public class ConfigHandler implements IConfigManager
 
         if (!this.handlers.isEmpty())
         {
-            this.handlers.forEach((modid, object) ->
+            this.handlers.forEach((key, object) ->
             {
                 if (!object.getHandler().isLoaded())
                 {
@@ -58,7 +91,7 @@ public class ConfigHandler implements IConfigManager
 
         if (!this.handlers.isEmpty())
         {
-            this.handlers.forEach((modid, object) ->
+            this.handlers.forEach((key, object) ->
             {
                 if (object.getHandler().isLoaded())
                 {
@@ -83,7 +116,7 @@ public class ConfigHandler implements IConfigManager
 
         if (!this.handlers.isEmpty())
         {
-            this.handlers.forEach((modid, object) ->
+            this.handlers.forEach((key, object) ->
             {
                 IConfigData conf;
                 conf = object.getHandler().defaults();
@@ -94,15 +127,12 @@ public class ConfigHandler implements IConfigManager
     }
 
     @ApiStatus.Internal
-    @SuppressWarnings("unchecked")
-    private <T extends IConfigData> void loadEach(ConfigHandlerObject object)
+    private void loadEach(ConfigHandlerObject object)
     {
-        TypeToken<T> typeToken = new TypeToken<>(object.getDataType().getClass()) {};
-        Class<T> typeObject = (Class<T>) typeToken.getRawType();
         IConfigData conf = object.getHandler().newConfig();
 
-        this.isLoaded.put(object.getModid(), false);
-        CoreLog.debug("loadEach() for modid [{}]", object.getModid());
+        this.isLoaded.put(object.getKey(), false);
+        CoreLog.debug("loadEach() for key [{}]", object.getKey());
 
         try
         {
@@ -138,25 +168,22 @@ public class ConfigHandler implements IConfigManager
             Files.writeString(configFile, GSON.toJson(conf));
             object.getHandler().execute();
 
-            this.isLoaded.put(object.getModid(), true);
+            this.isLoaded.put(object.getKey(), true);
         }
         catch (Exception e)
         {
-            this.isLoaded.put(object.getModid(), false);
-            CoreLog.error("Error reading config file for mod [{}] // {}", object.getModid(), e.getMessage());
+            this.isLoaded.put(object.getKey(), false);
+            CoreLog.error("Error reading config file for key [{}] // {}", object.getKey(), e.getMessage());
         }
     }
 
     @ApiStatus.Internal
-    @SuppressWarnings("unchecked")
-    private <T extends IConfigData> void saveEach(ConfigHandlerObject object)
+    private void saveEach(ConfigHandlerObject object)
     {
-        TypeToken<T> typeToken = new TypeToken<>(object.getDataType().getClass()) {};
-        Class<T> typeObject = (Class<T>) typeToken.getRawType();
         IConfigData conf;
 
         this.isLoaded.put(object.getModid(), false);
-        CoreLog.debug("saveEach() for modid [{}]", object.getModid());
+        CoreLog.debug("saveEach() for key [{}]", object.getKey());
 
         try
         {
@@ -188,18 +215,18 @@ public class ConfigHandler implements IConfigManager
             if (conf != null)
             {
                 Files.writeString(configFile, GSON.toJson(conf));
-                this.isLoaded.put(object.getModid(), true);
+                this.isLoaded.put(object.getKey(), true);
             }
             else
             {
-                this.isLoaded.put(object.getModid(), false);
-                CoreLog.error("Error saving config file for mod [{}] // config object is empty", object.getModid());
+                this.isLoaded.put(object.getKey(), false);
+                CoreLog.error("Error saving config file for key [{}] // config object is empty", object.getKey());
             }
         }
         catch (Exception e)
         {
-            this.isLoaded.put(object.getModid(), false);
-            CoreLog.error("Error saving config file for mod [{}] // {}", object.getModid(), e.getMessage());
+            this.isLoaded.put(object.getKey(), false);
+            CoreLog.error("Error saving config file for key [{}] // {}", object.getKey(), e.getMessage());
         }
     }
 }

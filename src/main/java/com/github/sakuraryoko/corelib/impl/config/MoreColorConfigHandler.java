@@ -95,7 +95,7 @@ public class MoreColorConfigHandler implements IConfigDispatch
         newConf.COLORS.putIfAbsent("tickle_me_pink", "#FC80A5");
         newConf.COLORS.putIfAbsent("ultramarine_blue", "#3F26BF");
         newConf.ALIASES.putIfAbsent("ultramarine_blue", List.of("ultramarine"));
-        CoreLog.debug("MoreColorConfigHandler.defaults() initialized.");
+        CoreLog.debug("MoreColornewConfHandler.defaults() initialized.");
 
         return newConf;
     }
@@ -107,16 +107,14 @@ public class MoreColorConfigHandler implements IConfigDispatch
         CoreLog.debug("MoreColorConfigHandler.refresh() has been called.");
 
         // Refresh existing data values into save file
-/*
-        for (MoreColorNode iColor : MoreColorNode.COLORS)
+        newConf.COLORS.forEach((color, hex) ->
         {
-            CONFIG.COLORS.putIfAbsent(iColor.getName(), iColor.getHexCode());
-            if (iColor.getAliases() != null)
-            {
-                CONFIG.ALIASES.putIfAbsent(iColor.getName(), iColor.getAliases());
-            }
-        }
- */
+            CONFIG.COLORS.putIfAbsent(color, hex);
+        });
+        newConf.ALIASES.forEach((color, aliases) ->
+        {
+            CONFIG.ALIASES.putIfAbsent(color, aliases);
+        });
 
         return CONFIG;
     }
@@ -132,20 +130,29 @@ public class MoreColorConfigHandler implements IConfigDispatch
         {
             String colorName = stringEntry.getKey();
             MoreColorNode iColor = MoreColorNode.getColorByName(colorName);
+
             if (iColor == null)
             {
                 List<String> alias = CONFIG.ALIASES.get(colorName);
+
                 if (alias == null)
+                {
                     MoreColorNode.addColor(colorName, stringEntry.getValue());
-                else {
+                }
+                else
+                {
                     MoreColorNode.addColor(colorName, stringEntry.getValue(), alias);
                     CoreLog.debug("Adding aliases to color " + colorName + " named: " + alias);
                 }
+
                 added = true;
             }
             else
-                CoreLog.debug("Can't add color: "+colorName+" because it already exists.");
+            {
+                CoreLog.debug("Can't add color: " + colorName + " because it already exists.");
+            }
         }
+
         if (added)
         {
             CoreLog.debug("Attempting to register any new color nodes.");

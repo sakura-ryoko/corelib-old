@@ -1,6 +1,8 @@
 package com.github.sakuraryoko.corelib.impl.events;
 
 import com.github.sakuraryoko.corelib.api.config.ConfigHandler;
+import com.github.sakuraryoko.corelib.impl.commands.TestCommand;
+import com.github.sakuraryoko.corelib.impl.text.NodeManagerV1;
 import com.github.sakuraryoko.corelib.util.CoreLog;
 
 public class ServerEvents
@@ -10,6 +12,8 @@ public class ServerEvents
         CoreLog.debug("ServerEvents: server starting");
 
         ((ConfigHandler) ConfigHandler.getInstance()).loadAllConfigs();
+        NodeManagerV1.registerNodes();
+        TestCommand.register();
     }
 
     public static void started()
