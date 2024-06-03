@@ -1,7 +1,11 @@
 jdk:
   - openjdk21
 before_install:
-  - sdk install java 21.0.2-tem
-  - sdk use java 21.0.2-tem
+  - export SDKMAN_DIR="/home/jitpack/.sdkman/"
+  - source "/home/jitpack/.sdkman/bin/sdkman-init.sh"
+  - sdk install java 21.0.2-open
+  - sdk use java 21.0.2-open
   - sdk install maven
+  - gradlew wrapper --gradle-version 8.7
   - mvn -v
+  - gradlew --version
