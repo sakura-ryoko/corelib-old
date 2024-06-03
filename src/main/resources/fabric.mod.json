@@ -21,13 +21,13 @@
     ]
   },
   "mixins": [
-      "corelib.impl.mixins.json"
+    "corelib.mixins.json"
   ],
   "depends": {
     "placeholder-api": "*",
-    "fabricloader": ">=0.15.10",
-    "fabric": ">=0.97.8",
-    "minecraft": ">=1.20.6"
+    "fabricloader": ">=0.15.11",
+    "fabric": ">=0.99.4",
+    "minecraft": ">=1.21-beta.2"
   },
   "custom": {
     "modmenu": {

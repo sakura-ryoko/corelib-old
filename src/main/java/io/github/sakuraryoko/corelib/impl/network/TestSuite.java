@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import io.github.sakuraryoko.corelib.api.init.CoreInitHandler;
+import io.github.sakuraryoko.corelib.impl.init.CoreInitHandler;
 import io.github.sakuraryoko.corelib.util.CoreLog;
 
 public class TestSuite

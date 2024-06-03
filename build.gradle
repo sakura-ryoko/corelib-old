@@ -34,7 +34,7 @@ dependencies {
 	// API Addons
 	modImplementation "eu.pb4:placeholder-api:${project.placeholder_api_version}"
 	modImplementation "me.lucko:fabric-permissions-api:${project.fabric_permissions_api_version}"
-	modCompileOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
+	// modCompileOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
 }
 
 processResources {
