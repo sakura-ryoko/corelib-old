@@ -17,6 +17,7 @@ repositories {
 		//mavenLocal()
 	}
 	maven { url 'https://maven.terraformersmc.com/releases/' }
+	maven { url "https://jitpack.io" }
 	// Only for a local maven repo for deps
 	//flatDir { dirs 'libs' }
 }
