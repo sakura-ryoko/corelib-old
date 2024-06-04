@@ -13,21 +13,21 @@ public interface IModInitDispatch
     boolean isDebug();
     boolean isWrapID();
     void onModInit();
+    default void setIntegratedServer(boolean toggle) { this.getModInit().setIntegratedServer(toggle); }
+    default void setDedicatedServer(boolean toggle) { this.getModInit().setDedicatedServer(toggle); }
+    default void setOpenToLan(boolean toggle) { this.getModInit().setOpenToLan(toggle); }
+    default void reset() { this.getModInit().reset(); }
 
-    default FabricLoader getModInstance() { return getModInit().getModInstance(); }
-    default boolean isClient() { return getModInit().isClient(); }
-    default boolean isServer() { return getModInit().isServer(); }
-    default boolean isIntegratedServer() { return getModInit().isIntegratedServer(); }
-    default boolean isDedicatedServer() { return getModInit().isDedicatedServer(); }
-    default boolean isOpenToLan() { return getModInit().isOpenToLan(); }
-    default void setIntegratedServer(boolean toggle) { getModInit().setIntegratedServer(toggle); }
-    default void setDedicatedServer(boolean toggle) { getModInit().setDedicatedServer(toggle); }
-    default void setOpenToLan(boolean toggle) { getModInit().setOpenToLan(toggle); }
-    default void reset() { getModInit().reset(); }
-    default String getMcVersion() { return getModInit().getMCVersion(); }
-    default String getModVersion() { return getModInit().getModVersion(); }
-    default String getModDesc() { return getModInit().getModDesc(); }
-    default String getModAuthors() { return getModInit().getModAuthor$String(); }
-    default String getModSources() { return getModInit().getModSources(); }
-    default String getModHomepage() { return getModInit().getModHomepage(); }
+    default FabricLoader getModInstance() { return this.getModInit().getModInstance(); }
+    default boolean isClient() { return this.getModInit().isClient(); }
+    default boolean isServer() { return this.getModInit().isServer(); }
+    default boolean isIntegratedServer() { return this.getModInit().isIntegratedServer(); }
+    default boolean isDedicatedServer() { return this.getModInit().isDedicatedServer(); }
+    default boolean isOpenToLan() { return this.getModInit().isOpenToLan(); }
+    default String getMcVersion() { return this.getModInit().getMCVersion(); }
+    default String getModVersion() { return this.getModInit().getModVersion(); }
+    default String getModDesc() { return this.getModInit().getModDesc(); }
+    default String getModAuthors() { return this.getModInit().getModAuthor$String(); }
+    default String getModSources() { return this.getModInit().getModSources(); }
+    default String getModHomepage() { return this.getModInit().getModHomepage(); }
 }

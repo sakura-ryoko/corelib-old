@@ -2,8 +2,8 @@ package com.github.sakuraryoko.corelib.impl.events;
 
 import com.github.sakuraryoko.corelib.api.config.ConfigHandler;
 import com.github.sakuraryoko.corelib.api.events.IClientEventsDispatch;
+import com.github.sakuraryoko.corelib.api.init.ModInitHandler;
 import com.github.sakuraryoko.corelib.impl.init.CoreInitHandler;
-import com.github.sakuraryoko.corelib.impl.text.NodeManagerV1;
 import com.github.sakuraryoko.corelib.util.CoreLog;
 import org.jetbrains.annotations.Nullable;
 import net.minecraft.client.world.ClientWorld;
@@ -27,10 +27,9 @@ public class CoreClientEvents implements IClientEventsDispatch
     {
         CoreLog.debug("onJoining: joining");
 
-        if (!CoreInitHandler.getInstance().isIntegratedServer())
+        if (!CoreInitHandler.getInstance().isDedicatedServer())
         {
             ((ConfigHandler) ConfigHandler.getInstance()).loadAllConfigs();
-            NodeManagerV1.registerNodes();
         }
     }
 
@@ -45,10 +44,7 @@ public class CoreClientEvents implements IClientEventsDispatch
     {
         CoreLog.debug("onJoined: joined");
 
-        if (!CoreInitHandler.getInstance().isIntegratedServer())
-        {
-            ((ConfigHandler) ConfigHandler.getInstance()).saveAllConfigs();
-        }
+        ((ConfigHandler) ConfigHandler.getInstance()).saveAllConfigs();
     }
 
     @Override
@@ -68,10 +64,7 @@ public class CoreClientEvents implements IClientEventsDispatch
     {
         CoreLog.debug("onDimensionChangePre: dimension change pre");
 
-        if (!CoreInitHandler.getInstance().isIntegratedServer())
-        {
-            ((ConfigHandler) ConfigHandler.getInstance()).saveAllConfigs();
-        }
+        ((ConfigHandler) ConfigHandler.getInstance()).saveAllConfigs();
     }
 
     @Override
@@ -97,9 +90,12 @@ public class CoreClientEvents implements IClientEventsDispatch
     {
         CoreLog.debug("onDisconnected: disconnected");
 
-        if (!CoreInitHandler.getInstance().isIntegratedServer())
+        if (!CoreInitHandler.getInstance().isDedicatedServer())
         {
+            CoreLog.debug("onDisconnected: disconnected --> Not Dedicated");
+
             ((ConfigHandler) ConfigHandler.getInstance()).saveAllConfigs();
+            ((ModInitHandler) ModInitHandler.getInstance()).reset();
         }
     }
 }

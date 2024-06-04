@@ -2,6 +2,7 @@ package com.github.sakuraryoko.corelib.mixin;
 
 import com.github.sakuraryoko.corelib.api.events.ServerEventsHandler;
 import com.github.sakuraryoko.corelib.api.init.ModInitHandler;
+import com.github.sakuraryoko.corelib.impl.init.CoreInitHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -38,7 +39,11 @@ public abstract class MixinMinecraftServer
     private void corelib$onServerStopped(CallbackInfo info)
     {
         ((ServerEventsHandler) ServerEventsHandler.getInstance()).onStopped((MinecraftServer) (Object) this);
-        ((ModInitHandler) ModInitHandler.getInstance()).reset();
+
+        if (CoreInitHandler.getInstance().isDedicatedServer())
+        {
+            ((ModInitHandler) ModInitHandler.getInstance()).reset();
+        }
     }
 
     @Inject(method = "prepareStartRegion", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;setSpawnPos(Lnet/minecraft/util/math/BlockPos;F)V", shift = At.Shift.AFTER))

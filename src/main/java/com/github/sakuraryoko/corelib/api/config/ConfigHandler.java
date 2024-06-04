@@ -4,13 +4,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
-import org.jetbrains.annotations.ApiStatus;
 import com.github.sakuraryoko.corelib.impl.init.CoreInitHandler;
 import com.github.sakuraryoko.corelib.util.CoreLog;
+import org.jetbrains.annotations.ApiStatus;
 
 public class ConfigHandler implements IConfigManager
 {
@@ -23,11 +22,11 @@ public class ConfigHandler implements IConfigManager
             .create();
 
     @Override
-    public void registerModConfigHandler(ConfigHandlerObject object)
+    public void registerConfigHandler(ConfigHandlerObject object)
     {
         if (!this.handlers.containsKey(object.getKey()))
         {
-            CoreLog.debug("registerModConfigHandler: {}", object.getModid());
+            CoreLog.debug("registerModConfigHandler: [{}]", object.getKey());
             this.handlers.put(object.getKey(), object);
             this.isLoaded.put(object.getKey(), false);
         }
@@ -36,6 +35,7 @@ public class ConfigHandler implements IConfigManager
     /**
      * Allowed to be used to reload a specific config file
      */
+    @Override
     public boolean reloadConfig(ConfigHandlerObject obj)
     {
         CoreLog.debug("reloadConfig() for key [{}]", obj.getKey());
@@ -53,6 +53,7 @@ public class ConfigHandler implements IConfigManager
     /**
      * Allowed to be used to see if a specific config file is marked loaded
      */
+    @Override
     public boolean isLoaded(ConfigHandlerObject obj)
     {
         CoreLog.debug("isLoaded() for key [{}]", obj.getKey());

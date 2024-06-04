@@ -141,17 +141,17 @@ public class ModInitData
 
     public void setIntegratedServer(boolean toggle)
     {
-        this.integratedServer = this.isClient() && toggle;
+        this.integratedServer = toggle;
     }
 
     public void setDedicatedServer(boolean toggle)
     {
-        this.dedicatedServer = this.isServer() && toggle;
+        this.dedicatedServer = toggle;
     }
 
     public void setOpenToLan(boolean toggle)
     {
-        if (this.isClient() && toggle)
+        if (toggle)
         {
             this.openToLan = true;
             this.integratedServer = true;

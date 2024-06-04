@@ -3,44 +3,43 @@ package com.github.sakuraryoko.corelib.impl.init;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import net.minecraft.text.Text;
-import com.github.sakuraryoko.corelib.api.events.ClientEventsHandler;
-import com.github.sakuraryoko.corelib.api.events.ServerEventsHandler;
-import com.github.sakuraryoko.corelib.impl.config.MainConfigHandler;
 import com.github.sakuraryoko.corelib.api.config.ConfigHandler;
 import com.github.sakuraryoko.corelib.api.config.ConfigHandlerObject;
+import com.github.sakuraryoko.corelib.api.events.ClientEventsHandler;
+import com.github.sakuraryoko.corelib.api.events.ServerEventsHandler;
 import com.github.sakuraryoko.corelib.api.init.IModInitDispatch;
 import com.github.sakuraryoko.corelib.api.init.ModInitData;
+import com.github.sakuraryoko.corelib.impl.config.MainConfigHandler;
 import com.github.sakuraryoko.corelib.impl.config.MoreColorConfigHandler;
 import com.github.sakuraryoko.corelib.impl.events.CoreClientEvents;
 import com.github.sakuraryoko.corelib.impl.events.CoreServerEvents;
 import com.github.sakuraryoko.corelib.util.CoreLog;
 import org.jetbrains.annotations.ApiStatus;
+import net.minecraft.text.Text;
 
 @ApiStatus.Internal
 public class CoreInitHandler implements IModInitDispatch
 {
-    private final static CoreInitHandler INSTANCE = new CoreInitHandler();
+    private static final CoreInitHandler INSTANCE = new CoreInitHandler();
     public static CoreInitHandler getInstance() { return INSTANCE; }
-
-    private final String MOD_ID = "corelib";
-    private final ModInitData MOD_INFO = new ModInitData(MOD_ID);
+    private static final String MOD_ID = "corelib";
+    private static final ModInitData MOD_INFO = new ModInitData(MOD_ID);
 
     MainConfigHandler mainConfigHandler = new MainConfigHandler();
     MoreColorConfigHandler moreColorConfigHandler = new MoreColorConfigHandler();
-    public final ConfigHandlerObject MAIN_CONFIG = new ConfigHandlerObject(mainConfigHandler, mainConfigHandler.getConfig(), this.MOD_ID, "main", false);
-    public final ConfigHandlerObject MORE_COLORS = new ConfigHandlerObject(moreColorConfigHandler, moreColorConfigHandler.getConfig(), this.MOD_ID, "more-colors", false);
+    public final ConfigHandlerObject MAIN_CONFIG = new ConfigHandlerObject(mainConfigHandler, mainConfigHandler.getConfig(), MOD_ID, "main", false);
+    public final ConfigHandlerObject MORE_COLORS = new ConfigHandlerObject(moreColorConfigHandler, moreColorConfigHandler.getConfig(), MOD_ID, "more-colors", false);
 
     @Override
     public ModInitData getModInit()
     {
-        return this.MOD_INFO;
+        return MOD_INFO;
     }
 
     @Override
     public String getModId()
     {
-        return this.MOD_ID;
+        return MOD_ID;
     }
 
     @Override
@@ -88,8 +87,8 @@ public class CoreInitHandler implements IModInitDispatch
     {
         for (String s : getBasic(List.of("ver", "auth", "desc"))) CoreLog.info(s);
 
-        ConfigHandler.getInstance().registerModConfigHandler(MAIN_CONFIG);
-        ConfigHandler.getInstance().registerModConfigHandler(MORE_COLORS);
+        ConfigHandler.getInstance().registerConfigHandler(MAIN_CONFIG);
+        ConfigHandler.getInstance().registerConfigHandler(MORE_COLORS);
 
         if (this.isClient())
         {

@@ -3,6 +3,7 @@ package com.github.sakuraryoko.corelib.impl.events;
 import com.github.sakuraryoko.corelib.api.config.ConfigHandler;
 import com.github.sakuraryoko.corelib.api.events.IServerEventsDispatch;
 import com.github.sakuraryoko.corelib.impl.commands.TestCommand;
+import com.github.sakuraryoko.corelib.impl.init.CoreInitHandler;
 import com.github.sakuraryoko.corelib.impl.text.NodeManagerV1;
 import com.github.sakuraryoko.corelib.util.CoreLog;
 import net.minecraft.server.MinecraftServer;
@@ -16,7 +17,10 @@ public class CoreServerEvents implements IServerEventsDispatch
     {
         CoreLog.debug("onStarting: server starting");
 
-        ((ConfigHandler) ConfigHandler.getInstance()).loadAllConfigs();
+        if (CoreInitHandler.getInstance().isDedicatedServer())
+        {
+            ((ConfigHandler) ConfigHandler.getInstance()).loadAllConfigs();
+        }
         NodeManagerV1.registerNodes();
         TestCommand.register();
     }
@@ -26,7 +30,10 @@ public class CoreServerEvents implements IServerEventsDispatch
     {
         CoreLog.debug("onStarted: server started");
 
-        ((ConfigHandler) ConfigHandler.getInstance()).saveAllConfigs();
+        if (CoreInitHandler.getInstance().isDedicatedServer())
+        {
+            ((ConfigHandler) ConfigHandler.getInstance()).saveAllConfigs();
+        }
     }
 
     @Override
@@ -58,6 +65,9 @@ public class CoreServerEvents implements IServerEventsDispatch
     {
         CoreLog.debug("onStopped: server stopped");
 
-        ((ConfigHandler) ConfigHandler.getInstance()).saveAllConfigs();
+        if (CoreInitHandler.getInstance().isDedicatedServer())
+        {
+            ((ConfigHandler) ConfigHandler.getInstance()).saveAllConfigs();
+        }
     }
 }
