@@ -1,6 +1,8 @@
 package com.github.sakuraryoko.corelib.api.network.client;
 
 import com.google.common.collect.ArrayListMultimap;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import org.jetbrains.annotations.ApiStatus;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.CustomPayload;
@@ -11,6 +13,7 @@ import com.github.sakuraryoko.corelib.api.network.CoreBuf;
  * The Client Network Play handler
  * @param <T> (Payload)
  */
+@Environment(EnvType.CLIENT)
 public class ClientPlayHandler<T extends CustomPayload> implements IClientPlayHandler
 {
     private static final ClientPlayHandler<CustomPayload> INSTANCE = new ClientPlayHandler<>();

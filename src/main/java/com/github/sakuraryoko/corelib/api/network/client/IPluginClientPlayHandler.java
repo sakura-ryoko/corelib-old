@@ -3,6 +3,8 @@ package com.github.sakuraryoko.corelib.api.network.client;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -21,6 +23,7 @@ import com.github.sakuraryoko.corelib.util.CoreLog;
  * Interface for ClientPlayHandler, for downstream mods.
  * @param <T> (Payload)
  */
+@Environment(EnvType.CLIENT)
 public interface IPluginClientPlayHandler<T extends CustomPayload> extends ClientPlayNetworking.PlayPayloadHandler<T>
 {
     int FROM_SERVER = 1;

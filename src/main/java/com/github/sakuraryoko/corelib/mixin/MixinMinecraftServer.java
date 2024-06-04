@@ -1,13 +1,13 @@
 package com.github.sakuraryoko.corelib.mixin;
 
+import com.github.sakuraryoko.corelib.api.events.ServerEventsHandler;
+import com.github.sakuraryoko.corelib.api.init.ModInitHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldGenerationProgressListener;
-import com.github.sakuraryoko.corelib.impl.events.ServerEvents;
-import com.github.sakuraryoko.corelib.api.init.ModInitHandler;
 
 @Mixin(MinecraftServer.class)
 public abstract class MixinMinecraftServer
@@ -19,25 +19,25 @@ public abstract class MixinMinecraftServer
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;setupServer()Z"), method = "runServer")
     private void corelib$onServerStarting(CallbackInfo ci)
     {
-        ServerEvents.starting();
+        ((ServerEventsHandler) ServerEventsHandler.getInstance()).onStarting((MinecraftServer) (Object) this);
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;createMetadata()Lnet/minecraft/server/ServerMetadata;", ordinal = 0), method = "runServer")
     private void corelib$onServerStarted(CallbackInfo ci)
     {
-        ServerEvents.started();
+        ((ServerEventsHandler) ServerEventsHandler.getInstance()).onStarted((MinecraftServer) (Object) this);
     }
 
     @Inject(at = @At("HEAD"), method = "shutdown")
     private void corelib$onServerStopping(CallbackInfo info)
     {
-        ServerEvents.stopping();
+        ((ServerEventsHandler) ServerEventsHandler.getInstance()).onStopping((MinecraftServer) (Object) this);
     }
 
     @Inject(at = @At("TAIL"), method = "shutdown")
     private void corelib$onServerStopped(CallbackInfo info)
     {
-        ServerEvents.stopped();
+        ((ServerEventsHandler) ServerEventsHandler.getInstance()).onStopped((MinecraftServer) (Object) this);
         ((ModInitHandler) ModInitHandler.getInstance()).reset();
     }
 

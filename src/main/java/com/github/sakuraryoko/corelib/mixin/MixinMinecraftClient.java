@@ -1,5 +1,7 @@
 package com.github.sakuraryoko.corelib.mixin;
 
+import com.github.sakuraryoko.corelib.api.events.ClientEventsHandler;
+import com.github.sakuraryoko.corelib.api.init.ModInitHandler;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -13,8 +15,6 @@ import net.minecraft.client.gui.screen.DownloadingTerrainScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.server.integrated.IntegratedServer;
-import com.github.sakuraryoko.corelib.impl.events.ClientEvents;
-import com.github.sakuraryoko.corelib.api.init.ModInitHandler;
 
 @Mixin(MinecraftClient.class)
 public abstract class MixinMinecraftClient
@@ -39,12 +39,12 @@ public abstract class MixinMinecraftClient
     {
         if (this.world == null)
         {
-            ClientEvents.joining();
+            ((ClientEventsHandler) ClientEventsHandler.getInstance()).onJoining(world);
             this.lastWorld = null;
         }
         else
         {
-            ClientEvents.dimensionChangePre();
+            ((ClientEventsHandler) ClientEventsHandler.getInstance()).onDimensionChangePre(world);
             this.lastWorld = world;
         }
     }
@@ -54,16 +54,16 @@ public abstract class MixinMinecraftClient
     {
         if (this.lastWorld != null)
         {
-            ClientEvents.dimensionChangePost();
+            ((ClientEventsHandler) ClientEventsHandler.getInstance()).onDimensionChangePost(world);
         }
         else
         {
             if (!this.integratedServerRunning)
             {
-                ClientEvents.openConnection();
+                ((ClientEventsHandler) ClientEventsHandler.getInstance()).onOpenConnection(world);
             }
 
-            ClientEvents.joined();
+            ((ClientEventsHandler) ClientEventsHandler.getInstance()).onJoined(world);
         }
 
         this.lastWorld = world;
@@ -75,11 +75,11 @@ public abstract class MixinMinecraftClient
         if (this.lastWorld == null)
         {
             // Called before <init> a new world
-            ClientEvents.worldChangePre();
+            ((ClientEventsHandler) ClientEventsHandler.getInstance()).worldChangePre(world);
         }
         else
         {
-            ClientEvents.disconnecting();
+            ((ClientEventsHandler) ClientEventsHandler.getInstance()).onDisconnecting(world);
             this.lastWorld = this.world;
         }
     }
@@ -89,19 +89,19 @@ public abstract class MixinMinecraftClient
     {
         if (this.lastWorld != null)
         {
-            ClientEvents.disconnected();
+            ((ClientEventsHandler) ClientEventsHandler.getInstance()).onDisconnected(this.lastWorld);
             this.lastWorld = null;
         }
         else
         {
             // Called before <init> a new world
-            ClientEvents.worldChangePost();
+            ((ClientEventsHandler) ClientEventsHandler.getInstance()).worldChangePost(null);
         }
     }
 
     @Inject(method = "onDisconnected", at = @At("HEAD"))
     private void corelib$onDisconnected(CallbackInfo ci)
     {
-        ClientEvents.closeConnection();
+        ((ClientEventsHandler) ClientEventsHandler.getInstance()).onCloseConnection(null);
     }
 }

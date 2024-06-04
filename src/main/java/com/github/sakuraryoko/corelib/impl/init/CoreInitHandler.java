@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.text.Text;
+import com.github.sakuraryoko.corelib.api.events.ClientEventsHandler;
+import com.github.sakuraryoko.corelib.api.events.ServerEventsHandler;
 import com.github.sakuraryoko.corelib.impl.config.MainConfigHandler;
 import com.github.sakuraryoko.corelib.api.config.ConfigHandler;
 import com.github.sakuraryoko.corelib.api.config.ConfigHandlerObject;
 import com.github.sakuraryoko.corelib.api.init.IModInitDispatch;
 import com.github.sakuraryoko.corelib.api.init.ModInitData;
 import com.github.sakuraryoko.corelib.impl.config.MoreColorConfigHandler;
+import com.github.sakuraryoko.corelib.impl.events.CoreClientEvents;
+import com.github.sakuraryoko.corelib.impl.events.CoreServerEvents;
 import com.github.sakuraryoko.corelib.util.CoreLog;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -86,6 +90,15 @@ public class CoreInitHandler implements IModInitDispatch
 
         ConfigHandler.getInstance().registerModConfigHandler(MAIN_CONFIG);
         ConfigHandler.getInstance().registerModConfigHandler(MORE_COLORS);
+
+        if (this.isClient())
+        {
+            CoreClientEvents clientHandler = new CoreClientEvents();
+            ClientEventsHandler.getInstance().registerClientEvents(clientHandler);
+        }
+
+        CoreServerEvents severHandler = new CoreServerEvents();
+        ServerEventsHandler.getInstance().registerServerEvents(severHandler);
 
         CoreLog.debug("Successful initialization.");
     }

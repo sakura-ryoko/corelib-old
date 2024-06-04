@@ -1,13 +1,13 @@
 package com.github.sakuraryoko.corelib.mixin;
 
+import com.github.sakuraryoko.corelib.api.events.ServerEventsHandler;
+import com.github.sakuraryoko.corelib.api.init.ModInitHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.world.GameMode;
-import com.github.sakuraryoko.corelib.impl.events.ServerEvents;
-import com.github.sakuraryoko.corelib.api.init.ModInitHandler;
 
 @Mixin(IntegratedServer.class)
 public class MixinIntegratedServer
@@ -18,7 +18,7 @@ public class MixinIntegratedServer
         if (cir.getReturnValue())
         {
             ((ModInitHandler) ModInitHandler.getInstance()).setIntegratedServer(true);
-            ServerEvents.integratedSetup();
+            ((ServerEventsHandler) ServerEventsHandler.getInstance()).onIntegratedStart((IntegratedServer) (Object) this);
         }
     }
 
@@ -28,7 +28,7 @@ public class MixinIntegratedServer
         if (cir.getReturnValue())
         {
             ((ModInitHandler) ModInitHandler.getInstance()).setOpenToLan(true);
-            ServerEvents.openToLan();
+            ((ServerEventsHandler) ServerEventsHandler.getInstance()).onOpenToLan((IntegratedServer) (Object) this);
         }
     }
 }
